@@ -1,18 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using OnboardingSIGDB1.Data;
-using Microsoft.EntityFrameworkCore;
+using OnboardingSIGDB1.Domain.Entities;
+using OnboardingSIGDB1.Domain.Interfaces;
+using OnboardingSIGDB1.Domain.Services;
 
 namespace OnboardingSIGDB1.API
 {
@@ -29,16 +25,19 @@ namespace OnboardingSIGDB1.API
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<DataContext>();
+
             services.AddControllers();
+            services.AddScoped<IRepository<Cargo>, Repository<Cargo>>();
+            services.AddScoped<ICargoService, CargoService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OnboardingSIGDB1.API", Version = "v1" });
             });
 
-            services.AddDbContext<DataContext>(options =>
-            {
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -30,12 +30,11 @@ namespace OnboardingSIGDB1.Domain.Entities
 
         protected Funcionario() { }
 
-        public Funcionario(string nome, string cpf, DateTime dataContratacao, Empresa empresa)
+        public Funcionario(string nome, string cpf)
         {
             Nome = nome;
             Cpf = cpf;
-            DataContratacao = dataContratacao;
-            Empresa = empresa;
+            
 
         }
 
