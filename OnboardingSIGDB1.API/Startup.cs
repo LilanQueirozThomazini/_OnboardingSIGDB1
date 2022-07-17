@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OnboardingSIGDB1.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace OnboardingSIGDB1.API
 {
@@ -31,6 +33,11 @@ namespace OnboardingSIGDB1.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OnboardingSIGDB1.API", Version = "v1" });
+            });
+
+            services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
         }
 
