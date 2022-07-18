@@ -17,7 +17,7 @@ namespace OnboardingSIGDB1.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CargoDTO dto)
+        public IActionResult Post([FromBody] CargoDTO dto)
         {
             if (!_cargoService.Inserir(dto))
                 return BadRequest("Não foi possível gravar");

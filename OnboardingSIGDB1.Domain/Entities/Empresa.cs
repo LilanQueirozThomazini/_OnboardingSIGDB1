@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using FluentValidation;
 using System.Text.RegularExpressions;
-
-
+using OnboardingSIGDB1.Domain.Base;
+using OnboardingSIGDB1.Domain.Utils;
 
 namespace OnboardingSIGDB1.Domain.Entities
 {
-    public class Empresa 
+    public class Empresa : EntityValidator<Empresa>
     {
         public int Id { get; private set; }
         public string Nome
@@ -48,7 +48,15 @@ namespace OnboardingSIGDB1.Domain.Entities
         {
             DataFundacao = dataFundacao;
         }
+        public override bool Validar()
+        {
+            RuleFor(e => e.Nome).NotEmpty().NotNull().MaximumLength(Constantes.QuantidadeMaximaDeCaracteresParaNome);
+            RuleFor(e => e.Cnpj).NotEmpty().NotNull().MaximumLength(Constantes.QuantidadeMaximaDeCaracteresParaCNPJ);
+            RuleFor(e => e.DataFundacao).GreaterThan(DateTime.MinValue);
 
-       
+            ValidationResult = Validate(this);
+            return ValidationResult.IsValid;
+        }
+
     }
 }

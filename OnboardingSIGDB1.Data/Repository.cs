@@ -20,8 +20,7 @@ namespace OnboardingSIGDB1.Data
 
         public void Add(T entity)
         {
-            //_dbSet.Add(entity);
-            _dataContext.Add(entity);
+            _dbSet.Add(entity);
         }
 
         public void Delete(T entity)

@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using FluentValidation;
+using OnboardingSIGDB1.Domain.Base;
+using OnboardingSIGDB1.Domain.Utils;
+using System.Collections.Generic;
 
 namespace OnboardingSIGDB1.Domain.Entities
 {
-    public class Cargo 
+    public class Cargo : EntityValidator<Cargo>
     {
         public int Id { get; private set; }
 
@@ -29,6 +32,12 @@ namespace OnboardingSIGDB1.Domain.Entities
 
         }
 
-                
+        public override bool Validar()
+        {
+            RuleFor(c => c.Descricao).NotEmpty().NotNull().MaximumLength(Constantes.QuantidadeMaximaDeCaracteresParaDescricao);
+
+            ValidationResult = Validate(this);
+            return ValidationResult.IsValid;
+        }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OnboardingSIGDB1.Data.Migrations
 {
-    public partial class BancoInicial : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,9 +11,11 @@ namespace OnboardingSIGDB1.Data.Migrations
                 name: "Cargos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Descricao = table.Column<string>(type: "TEXT", maxLength: 250, nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descricao = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
+                    ClassLevelCascadeMode = table.Column<int>(type: "int", nullable: false),
+                    RuleLevelCascadeMode = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -24,11 +26,13 @@ namespace OnboardingSIGDB1.Data.Migrations
                 name: "Empresas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
-                    Cnpj = table.Column<string>(type: "TEXT", maxLength: 14, nullable: false),
-                    DataFundacao = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Cnpj = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
+                    DataFundacao = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ClassLevelCascadeMode = table.Column<int>(type: "int", nullable: false),
+                    RuleLevelCascadeMode = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,12 +43,14 @@ namespace OnboardingSIGDB1.Data.Migrations
                 name: "Funcionarios",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
-                    Cpf = table.Column<string>(type: "TEXT", maxLength: 11, nullable: false),
-                    DataContratacao = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EmpresaId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Cpf = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
+                    DataContratacao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EmpresaId = table.Column<int>(type: "int", nullable: false),
+                    ClassLevelCascadeMode = table.Column<int>(type: "int", nullable: false),
+                    RuleLevelCascadeMode = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,9 +67,11 @@ namespace OnboardingSIGDB1.Data.Migrations
                 name: "FuncionariosCargos",
                 columns: table => new
                 {
-                    CargoId = table.Column<int>(type: "INTEGER", nullable: false),
-                    FuncionarioId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DataVinculo = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    CargoId = table.Column<int>(type: "int", nullable: false),
+                    FuncionarioId = table.Column<int>(type: "int", nullable: false),
+                    DataVinculo = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ClassLevelCascadeMode = table.Column<int>(type: "int", nullable: false),
+                    RuleLevelCascadeMode = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

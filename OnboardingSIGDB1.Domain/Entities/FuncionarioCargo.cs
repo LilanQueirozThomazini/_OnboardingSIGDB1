@@ -1,8 +1,9 @@
-﻿using System;
+﻿using OnboardingSIGDB1.Domain.Base;
+using System;
 
 namespace OnboardingSIGDB1.Domain.Entities
 {
-    public class FuncionarioCargo 
+    public class FuncionarioCargo : EntityValidator<FuncionarioCargo>
     {
         public int CargoId { get; private set; }
         public int FuncionarioId { get; private set; }
@@ -19,7 +20,10 @@ namespace OnboardingSIGDB1.Domain.Entities
             FuncionarioId = funcionarioId;
             DataVinculo = dataVinculo;
         }
-       
 
+        public override bool Validar()
+        {
+            return true;
+        }
     }
 }

@@ -16,8 +16,8 @@ namespace OnboardingSIGDB1.Data.Mappings
             builder.HasOne(p => p.Funcionario)
                 .WithMany(p => p.FuncionarioCargo)
                 .HasForeignKey(p => p.FuncionarioId);
-         //   builder.Ignore(p => p.ValidationResult);
-         //   builder.Ignore(p => p.CascadeMode);
+            builder.Ignore(p => p.ValidationResult);
+            builder.Ignore(p => p.CascadeMode);
         }
     }
 }

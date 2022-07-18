@@ -21,8 +21,8 @@ namespace OnboardingSIGDB1.Data.Mappings
                 .WithMany(p => p.Funcionarios)
                 .HasForeignKey(p => p.EmpresaId)
                 .OnDelete(DeleteBehavior.Restrict);
-           // builder.Ignore(p => p.ValidationResult);
-           // builder.Ignore(p => p.CascadeMode);
+            builder.Ignore(p => p.ValidationResult);
+            builder.Ignore(p => p.CascadeMode);
         }
     }
 }

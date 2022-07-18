@@ -1,10 +1,13 @@
-﻿using System;
+﻿using FluentValidation;
+using OnboardingSIGDB1.Domain.Base;
+using OnboardingSIGDB1.Domain.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace OnboardingSIGDB1.Domain.Entities
 {
-    public class Funcionario
+    public class Funcionario : EntityValidator<Funcionario>
     {
         public int Id { get; private set; }
         public string Nome
@@ -51,7 +54,15 @@ namespace OnboardingSIGDB1.Domain.Entities
             DataContratacao = dataContratacao;
         }
 
+        public override bool Validar()
+        {
+            RuleFor(f => f.Nome).NotEmpty().NotNull().MaximumLength(Constantes.QuantidadeMaximaDeCaracteresParaNome);
+            RuleFor(f => f.Cpf).NotEmpty().NotNull().MaximumLength(Constantes.QuantidadeMaximaDeCaracteresParaCPF);
+            RuleFor(f => f.DataContratacao).GreaterThan(DateTime.MinValue);
 
-        
+            ValidationResult = Validate(this);
+            return ValidationResult.IsValid;
+        }
+
     }
 }
