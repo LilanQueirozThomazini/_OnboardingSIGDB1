@@ -8,7 +8,10 @@ using Microsoft.OpenApi.Models;
 using OnboardingSIGDB1.Data;
 using OnboardingSIGDB1.Domain.Entities;
 using OnboardingSIGDB1.Domain.Interfaces;
-using OnboardingSIGDB1.Domain.Services;
+using OnboardingSIGDB1.Domain.Interfaces.Cargos;
+using OnboardingSIGDB1.Domain.Notifications;
+using OnboardingSIGDB1.Domain.Services.Cargos;
+using System.Linq;
 
 namespace OnboardingSIGDB1.API
 {
@@ -29,8 +32,15 @@ namespace OnboardingSIGDB1.API
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("OnboardingSIGDB1.Data")));
 
             services.AddControllers();
+
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<INotificationContext, NotificationContext>();
+
+
+
             services.AddScoped<IRepository<Cargo>, Repository<Cargo>>();
-            services.AddScoped<ICargoService, CargoService>();
+            services.AddScoped<IGravarCargoService, GravarCargoService>();
 
             services.AddSwaggerGen(c =>
             {
@@ -44,6 +54,24 @@ namespace OnboardingSIGDB1.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.Use(async (context, next) => {
+                await next.Invoke();
+                string method = context.Request.Method;
+                var allowedMethodsToCommit = new string[] { "POST", "PUT", "DELETE", "PATCH" };
+
+                if (!allowedMethodsToCommit.Contains(method))
+                    return;
+
+                var notificationContext = context.RequestServices.GetService<INotificationContext>();
+                if (!notificationContext.HasNotifications)
+                {
+                    var unitOfWork = (IUnitOfWork)context.RequestServices.GetService(typeof(IUnitOfWork));
+                    unitOfWork.Commit();
+                }
+            });
+
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

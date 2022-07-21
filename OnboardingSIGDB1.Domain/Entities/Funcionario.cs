@@ -22,8 +22,8 @@ namespace OnboardingSIGDB1.Domain.Entities
             private set { _cpf = Regex.Replace(value.Trim(), @"[-,.,/]", string.Empty); }
 
         }
-        public DateTime DataContratacao { get; private set; }
-        public int EmpresaId { get; private set; }
+        public DateTime? DataContratacao { get; private set; }
+        public int? EmpresaId { get; private set; }
         public virtual Empresa Empresa { get; private set; }
         public virtual IEnumerable<FuncionarioCargo> FuncionarioCargo { get; private set; }
 
@@ -49,7 +49,7 @@ namespace OnboardingSIGDB1.Domain.Entities
         {
             Cpf = cpf;
         }
-        public void AlteraDataContratacao(DateTime dataContratacao)
+        public void AlteraDataContratacao(DateTime? dataContratacao)
         {
             DataContratacao = dataContratacao;
         }

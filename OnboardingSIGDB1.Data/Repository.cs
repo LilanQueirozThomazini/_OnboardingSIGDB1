@@ -52,9 +52,6 @@ namespace OnboardingSIGDB1.Data
             _dataContext.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Commit()
-        {
-            _dataContext.SaveChanges();
-        }
+      
     }
 }

@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OnboardingSIGDB1.Domain.Dto;
-using OnboardingSIGDB1.Domain.Interfaces;
+using OnboardingSIGDB1.Domain.Interfaces.Cargos;
 
 namespace OnboardingSIGDB1.API.Controllers
 {
@@ -9,18 +8,18 @@ namespace OnboardingSIGDB1.API.Controllers
     [ApiController]
     public class CargoController : ControllerBase
     {
-        private readonly ICargoService _cargoService;
+        private readonly IGravarCargoService _gravarcargoService;
 
-        public CargoController(ICargoService cargoService)
+        public CargoController(IGravarCargoService gravarcargoService)
         {
-            _cargoService = cargoService;
+            _gravarcargoService = gravarcargoService;
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] CargoDTO dto)
         {
-            if (!_cargoService.Inserir(dto))
-                return BadRequest("Não foi possível gravar");
+            if (!_gravarcargoService.Inserir(dto))
+                return BadRequest(_gravarcargoService.notificationContext.Notifications);
 
             return Created($"/api/cargo/{dto.Id}", dto);
         }
