@@ -8,18 +8,18 @@ namespace OnboardingSIGDB1.API.Controllers
     [ApiController]
     public class CargoController : ControllerBase
     {
-        private readonly IGravarCargoService _gravarcargoService;
+        private readonly IGravarCargoService _gravarService;
 
         public CargoController(IGravarCargoService gravarcargoService)
         {
-            _gravarcargoService = gravarcargoService;
+            _gravarService = gravarcargoService;
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] CargoDTO dto)
         {
-            if (!_gravarcargoService.Inserir(dto))
-                return BadRequest(_gravarcargoService.notificationContext.Notifications);
+            if (!_gravarService.Inserir(dto))
+                return BadRequest(_gravarService.notificationContext.Notifications);
 
             return Created($"/api/cargo/{dto.Id}", dto);
         }

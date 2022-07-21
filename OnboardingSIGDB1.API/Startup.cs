@@ -9,8 +9,10 @@ using OnboardingSIGDB1.Data;
 using OnboardingSIGDB1.Domain.Entities;
 using OnboardingSIGDB1.Domain.Interfaces;
 using OnboardingSIGDB1.Domain.Interfaces.Cargos;
+using OnboardingSIGDB1.Domain.Interfaces.Empresas;
 using OnboardingSIGDB1.Domain.Notifications;
 using OnboardingSIGDB1.Domain.Services.Cargos;
+using OnboardingSIGDB1.Domain.Services.Empresas;
 using System.Linq;
 
 namespace OnboardingSIGDB1.API
@@ -40,7 +42,9 @@ namespace OnboardingSIGDB1.API
 
 
             services.AddScoped<IRepository<Cargo>, Repository<Cargo>>();
+            services.AddScoped<IRepository<Empresa>, Repository<Empresa>>();
             services.AddScoped<IGravarCargoService, GravarCargoService>();
+            services.AddScoped<IGravarEmpresaService, GravarEmpresaService>();
 
             services.AddSwaggerGen(c =>
             {

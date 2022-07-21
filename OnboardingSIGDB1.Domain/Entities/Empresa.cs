@@ -30,7 +30,7 @@ namespace OnboardingSIGDB1.Domain.Entities
 
         protected Empresa() { }
 
-        public Empresa(string nome, string cnpj, DateTime dataFundacao)
+        public Empresa(string nome, string cnpj, DateTime? dataFundacao)
         {
             Nome = nome;
             Cnpj = cnpj;
