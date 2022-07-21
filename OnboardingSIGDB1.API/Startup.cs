@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OnboardingSIGDB1.Data;
+using OnboardingSIGDB1.Domain.AutoMapper;
 using OnboardingSIGDB1.Domain.Entities;
 using OnboardingSIGDB1.Domain.Interfaces;
 using OnboardingSIGDB1.Domain.Interfaces.Cargos;
@@ -13,6 +15,7 @@ using OnboardingSIGDB1.Domain.Interfaces.Empresas;
 using OnboardingSIGDB1.Domain.Notifications;
 using OnboardingSIGDB1.Domain.Services.Cargos;
 using OnboardingSIGDB1.Domain.Services.Empresas;
+using System;
 using System.Linq;
 
 namespace OnboardingSIGDB1.API
@@ -30,10 +33,14 @@ namespace OnboardingSIGDB1.API
         public void ConfigureServices(IServiceCollection services)
         {
 
+            InicializaAutoMapper.Initialize();
+
             // services.AddDbContext<DataContext>();
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("OnboardingSIGDB1.Data")));
 
             services.AddControllers();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
