@@ -9,10 +9,12 @@ namespace OnboardingSIGDB1.API.Controllers
     public class CargoController : ControllerBase
     {
         private readonly IGravarCargoService _gravarService;
+        private readonly IRemoverCargoService _removerService;
 
-        public CargoController(IGravarCargoService gravarcargoService)
+        public CargoController(IGravarCargoService gravarcargoService, IRemoverCargoService removerService)
         {
             _gravarService = gravarcargoService;
+            _removerService = removerService;
         }
 
         [HttpPost]
@@ -22,6 +24,8 @@ namespace OnboardingSIGDB1.API.Controllers
                 return BadRequest(_gravarService.notificationContext.Notifications);
 
             return Created($"/api/cargo/{dto.Id}", dto);
+
+            //TODO: como mostrar o ID CRIADO?
         }
 
         [HttpPut("{id}")]
@@ -31,6 +35,15 @@ namespace OnboardingSIGDB1.API.Controllers
                 return BadRequest(_gravarService.notificationContext.Notifications);
 
             return Created($"/api/cargo/{id}", dto);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            if (!_removerService.Remover(id))
+                return BadRequest(_removerService.notificationContext.Notifications);
+
+            return NoContent();
         }
     }
 }

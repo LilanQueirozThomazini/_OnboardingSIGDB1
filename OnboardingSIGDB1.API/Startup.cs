@@ -46,6 +46,9 @@ namespace OnboardingSIGDB1.API
             services.AddScoped<IGravarCargoService, GravarCargoService>();
             services.AddScoped<IGravarEmpresaService, GravarEmpresaService>();
 
+            services.AddScoped<IRemoverCargoService, RemoverCargoService>();
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OnboardingSIGDB1.API", Version = "v1" });
