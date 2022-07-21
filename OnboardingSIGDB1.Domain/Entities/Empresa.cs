@@ -44,7 +44,7 @@ namespace OnboardingSIGDB1.Domain.Entities
         {
             Cnpj = cnpj;
         }
-        public void AlterarDataFundacao(DateTime dataFundacao)
+        public void AlterarDataFundacao(DateTime? dataFundacao)
         {
             DataFundacao = dataFundacao;
         }
