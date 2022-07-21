@@ -8,17 +8,17 @@ namespace OnboardingSIGDB1.Domain.Services.Cargos
 {
     public class GravarCargoService : GravarServiceBase, IGravarCargoService
     {
-        private readonly IRepository<Cargo> _cargoRepository;
+        private readonly IRepository<Cargo> _repository;
 
         public GravarCargoService(IRepository<Cargo> cargoRepository, INotificationContext notification)
         {
-            _cargoRepository = cargoRepository;
+            _repository = cargoRepository;
             notificationContext = notification;
         }
 
         public bool Inserir(CargoDTO dto)
         {
-            _cargoRepository.Add(new Cargo(dto.Descricao));
+            _repository.Add(new Cargo(dto.Descricao));
             return true;
         }
 

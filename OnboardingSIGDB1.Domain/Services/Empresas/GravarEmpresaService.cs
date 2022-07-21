@@ -9,11 +9,11 @@ namespace OnboardingSIGDB1.Domain.Services.Empresas
 {
     public class GravarEmpresaService : GravarServiceBase, IGravarEmpresaService
     {
-        private readonly IRepository<Empresa> _empresaRepository;
+        private readonly IRepository<Empresa> _repository;
 
         public GravarEmpresaService(IRepository<Empresa> empresaRepository, INotificationContext notification)
         {
-            _empresaRepository = empresaRepository;
+            _repository = empresaRepository;
             notificationContext = notification;
         }
 
@@ -24,7 +24,7 @@ namespace OnboardingSIGDB1.Domain.Services.Empresas
 
         public bool Inserir(EmpresaDTO dto)
         {
-            _empresaRepository.Add(new Empresa(dto.Nome, dto.Cnpj, dto.DataFundacao));
+            _repository.Add(new Empresa(dto.Nome, dto.Cnpj, dto.DataFundacao));
             return true;
         }
     }

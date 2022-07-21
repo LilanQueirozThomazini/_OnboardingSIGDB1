@@ -1,0 +1,11 @@
+﻿using OnboardingSIGDB1.Domain.Dto;
+
+namespace OnboardingSIGDB1.Domain.Interfaces.Funcionario
+{
+    public interface IGravarFuncionarioService : IGravarService
+    {
+        bool Inserir(FuncionarioDTO dto);
+        bool Alterar(int id, FuncionarioDTO dto);
+        bool VincularEmpresa(int id, FuncionarioEmpresaDTO dto);
+    }
+}
