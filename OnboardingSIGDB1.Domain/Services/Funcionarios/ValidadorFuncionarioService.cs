@@ -73,7 +73,7 @@ namespace OnboardingSIGDB1.Domain.Services.Funcionarios
 
         private void ValidarEmpresaExiste(int empresaId)
         {
-            if (!_empresaRepository.Exist(e => e.Id == empresaId))
+            if (!_empresaRepository.Exist(x => x.Id == empresaId))
                 notificationContext.AddNotification(Constantes.sChaveErroEmpresaNaoLocalizadaParaVincular, Constantes.sMensagemErroEmpresaNaoLocalizadaParaVincular);
         }
     }

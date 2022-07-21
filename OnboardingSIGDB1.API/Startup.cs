@@ -13,10 +13,12 @@ using OnboardingSIGDB1.Domain.Interfaces;
 using OnboardingSIGDB1.Domain.Interfaces.Cargos;
 using OnboardingSIGDB1.Domain.Interfaces.Empresas;
 using OnboardingSIGDB1.Domain.Interfaces.Funcionarios;
+using OnboardingSIGDB1.Domain.Interfaces.FuncionariosCargo;
 using OnboardingSIGDB1.Domain.Notifications;
 using OnboardingSIGDB1.Domain.Services.Cargos;
 using OnboardingSIGDB1.Domain.Services.Empresas;
 using OnboardingSIGDB1.Domain.Services.Funcionarios;
+using OnboardingSIGDB1.Domain.Services.FuncionariosCargo;
 using System;
 using System.Linq;
 
@@ -50,10 +52,12 @@ namespace OnboardingSIGDB1.API
             services.AddScoped<IRepository<Cargo>, Repository<Cargo>>();
             services.AddScoped<IRepository<Empresa>, Repository<Empresa>>();
             services.AddScoped<IRepository<Funcionario>, Repository<Funcionario>>();
+            services.AddScoped<IRepository<FuncionarioCargo>, Repository<FuncionarioCargo>>();
 
             services.AddScoped<IGravarCargoService, GravarCargoService>();
             services.AddScoped<IGravarEmpresaService, GravarEmpresaService>();
             services.AddScoped<IGravarFuncionarioService, GravarFuncionarioService>();
+            services.AddScoped<IGravarFuncionarioCargoService, GravarFuncionarioCargoService>();
 
             services.AddScoped<IRemoverCargoService, RemoverCargoService>();
             services.AddScoped<IRemoverEmpresaService, RemoverEmpresaService>();
