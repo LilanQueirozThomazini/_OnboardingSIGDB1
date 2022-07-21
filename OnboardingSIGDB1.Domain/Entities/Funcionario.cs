@@ -33,12 +33,11 @@ namespace OnboardingSIGDB1.Domain.Entities
 
         protected Funcionario() { }
 
-        public Funcionario(string nome, string cpf)
+        public Funcionario(string nome, string cpf, DateTime? dataContratacao)
         {
             Nome = nome;
             Cpf = cpf;
-            
-
+            DataContratacao = dataContratacao;
         }
 
         public void AlteraNome(string nome)
@@ -62,6 +61,11 @@ namespace OnboardingSIGDB1.Domain.Entities
 
             ValidationResult = Validate(this);
             return ValidationResult.IsValid;
+        }
+
+        public void AlteraEmpresa(int empresaId)
+        {
+            EmpresaId = empresaId;
         }
 
     }

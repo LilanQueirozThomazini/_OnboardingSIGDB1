@@ -15,6 +15,9 @@ namespace OnboardingSIGDB1.Domain.AutoMapper
         {
             return new List<Type> {
                 typeof(CargoAutoMapper),
+                typeof(FuncionarioAutoMapper),
+                typeof(EmpresaAutoMapper),
+                typeof(FuncionarioCargoAutoMapper),
             };
         }
     }

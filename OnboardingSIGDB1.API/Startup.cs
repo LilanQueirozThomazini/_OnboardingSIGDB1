@@ -37,7 +37,6 @@ namespace OnboardingSIGDB1.API
 
             InicializaAutoMapper.Initialize();
 
-            // services.AddDbContext<DataContext>();
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("OnboardingSIGDB1.Data")));
 
             services.AddControllers();
