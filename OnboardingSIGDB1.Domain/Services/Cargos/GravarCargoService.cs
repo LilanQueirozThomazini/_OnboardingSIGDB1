@@ -35,16 +35,16 @@ namespace OnboardingSIGDB1.Domain.Services.Cargos
 
         public bool Alterar(int id, CargoDTO dto)
         {
-            //_cargo = _cargoRepository.Get(c => c.Id == id);
-            //_cargo.AlterarDescricao(dto.Descricao);
+            _cargo = _repository.Get(c => c.Id == id);
+            _cargo.AlteraDescricao(dto.Descricao);
 
-            //_validador.entidade = _cargo;
-            //_validador.ValidarAlteracao();
+            _validador.entidade = _cargo;
+            _validador.ValidarAlteracao();
 
-            //if (notificationContext.HasNotifications)
-            //    return false;
+            if (notificationContext.HasNotifications)
+                return false;
 
-            //_cargoRepository.Update(_cargo);
+            _repository.Update(_cargo);
             return true;
         }
     }
