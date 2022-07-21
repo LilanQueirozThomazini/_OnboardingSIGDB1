@@ -2,17 +2,17 @@
 using OnboardingSIGDB1.Domain.Dto;
 using OnboardingSIGDB1.Domain.Entities;
 using OnboardingSIGDB1.Domain.Interfaces;
-using OnboardingSIGDB1.Domain.Interfaces.Funcionario;
-using System;
+using OnboardingSIGDB1.Domain.Interfaces.Funcionarios;
 
-namespace OnboardingSIGDB1.Domain.Services.Funcionario
+namespace OnboardingSIGDB1.Domain.Services.Funcionarios
 {
     public class GravarFuncionarioService : GravarServiceBase, IGravarFuncionarioService
     {
 
-        private readonly IFuncionarioRepository _repository;
+        private readonly IRepository<Funcionario> _repository;
+        private Funcionario _funcionario;
 
-        public GravarFuncionarioService(IFuncionarioRepository repository, INotificationContext notification)
+        public GravarFuncionarioService(IRepository<Funcionario> repository, INotificationContext notification)
         {
             _repository = repository;
             notificationContext = notification;

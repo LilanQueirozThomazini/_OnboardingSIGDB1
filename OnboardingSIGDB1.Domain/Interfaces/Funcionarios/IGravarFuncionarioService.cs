@@ -1,6 +1,6 @@
 ﻿using OnboardingSIGDB1.Domain.Dto;
 
-namespace OnboardingSIGDB1.Domain.Interfaces.Funcionario
+namespace OnboardingSIGDB1.Domain.Interfaces.Funcionarios
 {
     public interface IGravarFuncionarioService : IGravarService
     {
