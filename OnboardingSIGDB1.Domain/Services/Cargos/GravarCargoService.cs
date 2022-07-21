@@ -9,16 +9,27 @@ namespace OnboardingSIGDB1.Domain.Services.Cargos
     public class GravarCargoService : GravarServiceBase, IGravarCargoService
     {
         private readonly IRepository<Cargo> _repository;
+        private ValidadorCargoService _validador;
+        private Cargo _cargo;
 
         public GravarCargoService(IRepository<Cargo> cargoRepository, INotificationContext notification)
         {
             _repository = cargoRepository;
             notificationContext = notification;
+            _validador = new ValidadorCargoService(notification, _cargo, _repository);
         }
 
         public bool Inserir(CargoDTO dto)
         {
-            _repository.Add(new Cargo(dto.Descricao));
+            _cargo = new Cargo(dto.Descricao);
+
+            _validador.entidade = _cargo;
+            _validador.ValidarInclusao();
+
+            if (notificationContext.HasNotifications)
+                return false;
+
+            _repository.Add(_cargo);
             return true;
         }
 
