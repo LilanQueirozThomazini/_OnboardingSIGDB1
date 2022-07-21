@@ -10,6 +10,9 @@ using OnboardingSIGDB1.Domain.Interfaces;
 using OnboardingSIGDB1.Domain.Dto;
 using OnboardingSIGDB1.Domain.Interfaces.Funcionarios;
 using AutoMapper;
+using OnboardingSIGDB1.Domain.Filters;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace OnboardingSIGDB1.API.Controllers
 {
@@ -78,6 +81,32 @@ namespace OnboardingSIGDB1.API.Controllers
                 return BadRequest(_removeService.notificationContext.Notifications);
 
             return NoContent();
+        }
+
+
+
+        [HttpGet("pesquisar")]
+        public IEnumerable<FuncionarioConsultaDTO> Get([FromQuery] FiltersFuncionario filters)
+        {
+            var funcionarios = _repository.GetAll();
+            var funcionariosDto = _mapper.Map<IEnumerable<FuncionarioConsultaDTO>>(funcionarios);
+
+            if (filters.Nome != null)
+            {
+                var regex = new Regex(filters.Nome, RegexOptions.IgnoreCase);
+                funcionariosDto = funcionariosDto.Where(f => regex.IsMatch(f.Nome));
+            }
+
+            if (filters.CPF != null)
+                funcionariosDto = funcionariosDto.Where(f => f.Cpf == filters.CPF);
+
+            if (filters.dtInicial != null)
+                funcionariosDto = funcionariosDto.Where(f => f.DataContratacao >= filters.dtInicial);
+
+            if (filters.dtFinal != null)
+                funcionariosDto = funcionariosDto.Where(f => f.DataContratacao <= filters.dtFinal);
+
+            return funcionariosDto;
         }
     }
 }

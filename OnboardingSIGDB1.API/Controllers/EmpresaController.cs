@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnboardingSIGDB1.Domain.Dto;
 using OnboardingSIGDB1.Domain.Entities;
+using OnboardingSIGDB1.Domain.Filters;
 using OnboardingSIGDB1.Domain.Interfaces;
 using OnboardingSIGDB1.Domain.Interfaces.Empresas;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace OnboardingSIGDB1.API.Controllers
 {
@@ -55,6 +58,34 @@ namespace OnboardingSIGDB1.API.Controllers
 
             return Created($"/api/empresa/{dto.Id}", dto);
         }
+
+
+
+
+        [HttpGet("pesquisar")]
+        public IEnumerable<EmpresaDTO> Get([FromQuery] FiltersEmpresa filters)
+        {
+            var empresas = _repository.GetAll();
+            var empresasDto = _mapper.Map<IEnumerable<EmpresaDTO>>(empresas);
+
+            if (filters.Nome != null)
+            {
+                var regex = new Regex(filters.Nome, RegexOptions.IgnoreCase);
+                empresasDto = empresasDto.Where(e => regex.IsMatch(e.Nome));
+            }
+
+            if (filters.CNPJ != null)
+                empresasDto = empresasDto.Where(e => e.Cnpj == filters.CNPJ);
+
+            if (filters.dtInicial != null)
+                empresasDto = empresasDto.Where(e => e.DataFundacao >= filters.dtInicial);
+
+            if (filters.dtFinal != null)
+                empresasDto = empresasDto.Where(e => e.DataFundacao <= filters.dtFinal);
+
+            return empresasDto;
+        }
+
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)

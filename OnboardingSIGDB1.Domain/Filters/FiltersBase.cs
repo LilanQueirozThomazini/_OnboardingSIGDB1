@@ -6,6 +6,6 @@ namespace OnboardingSIGDB1.Domain.Filters
     {
         public string Nome { get; set; }
         public DateTime? dtInicial { get; set; }
-        public DateTime? dfFinal { get; set; }
+        public DateTime? dtFinal { get; set; }
     }
 }
