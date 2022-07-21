@@ -58,6 +58,7 @@ namespace OnboardingSIGDB1.API
 
             services.AddScoped<IRemoverCargoService, RemoverCargoService>();
             services.AddScoped<IRemoverEmpresaService, RemoverEmpresaService>();
+            services.AddScoped<IRemoverFuncionarioService, RemoverFuncionarioService>();
 
 
             services.AddSwaggerGen(c =>

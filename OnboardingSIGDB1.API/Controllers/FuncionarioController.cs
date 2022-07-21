@@ -19,11 +19,13 @@ namespace OnboardingSIGDB1.API.Controllers
 
         private readonly IRepository<Funcionario> _repository;
         private readonly IGravarFuncionarioService _gravaService;
+        private readonly IRemoverFuncionarioService _removeService;
 
-        public FuncionarioController(IRepository<Funcionario> repository, IGravarFuncionarioService gravaService)
+        public FuncionarioController(IRepository<Funcionario> repository, IGravarFuncionarioService gravaService, IRemoverFuncionarioService removeService)
         {
             _repository = repository;
             _gravaService = gravaService;
+            _removeService = removeService;
         }
 
         [HttpPost]
@@ -33,6 +35,15 @@ namespace OnboardingSIGDB1.API.Controllers
                 return BadRequest(_gravaService.notificationContext.Notifications);
 
             return Created($"/api/funcionario/{dto.Id}", dto);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            if (!_removeService.Remover(id))
+                return BadRequest(_removeService.notificationContext.Notifications);
+
+            return NoContent();
         }
     }
 }
