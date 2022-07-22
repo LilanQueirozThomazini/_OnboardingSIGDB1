@@ -4,11 +4,11 @@ using OnboardingSIGDB1.Domain.Entities;
 
 namespace OnboardingSIGDB1.Domain.AutoMapper
 {
-    public class CargoAutoMapper: Profile
+    public class ProfileFuncionarioCargo : Profile
     {
-        public CargoAutoMapper()
+        public ProfileFuncionarioCargo()
         {
-            CreateMap<Cargo, CargoDTO>().ReverseMap();
+            CreateMap<FuncionarioCargo, FuncionarioCargoDTO>().ReverseMap();
         }
     }
 }

@@ -29,13 +29,13 @@ namespace OnboardingSIGDB1.Domain.Services.Cargos
             if (notificationContext.HasNotifications)
                 return false;
 
-            _repository.Add(_cargo);
+            _repository.Add(_cargo);            
             return true;
         }
 
         public bool Alterar(int id, CargoDTO dto)
         {
-            _cargo = _repository.Get(c => c.Id == id);
+            _cargo = _repository.Get(x => x.Id == id);
             _cargo.AlteraDescricao(dto.Descricao);
 
             _validador.entidade = _cargo;

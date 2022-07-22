@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace OnboardingSIGDB1.Domain.AutoMapper
 {
-    public class EmpresaAutoMapper : Profile
+    public class ProfileEmpresa : Profile
     {
-        public EmpresaAutoMapper()
+        public ProfileEmpresa()
         {
             CreateMap<Empresa, EmpresaDTO>()
                             .ForMember(x => x.Cnpj, o => o.MapFrom(x => Convert.ToUInt64(x.Cnpj).ToString(@"00\.000\.000\/0000\-00")));

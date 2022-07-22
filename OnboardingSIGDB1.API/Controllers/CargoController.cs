@@ -51,6 +51,8 @@ namespace OnboardingSIGDB1.API.Controllers
             if (!_gravarService.Inserir(dto))
                 return BadRequest(_gravarService.notificationContext.Notifications);
 
+            var cargoDto = _mapper.Map<CargoDTO>(dto);
+
             return Created($"/api/cargo/{dto.Id}", dto);
 
             //TODO: como mostrar o ID CRIADO?

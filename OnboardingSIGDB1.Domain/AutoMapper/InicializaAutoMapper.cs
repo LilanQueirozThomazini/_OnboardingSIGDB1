@@ -8,16 +8,17 @@ namespace OnboardingSIGDB1.Domain.AutoMapper
     {
         public static void Initialize()
         {
+            //Static API Mapper
             Mapper.Initialize(m => m.AddProfiles(GetAutoMapperProfiles()));
         }
 
         private static IEnumerable<Type> GetAutoMapperProfiles()
         {
             return new List<Type> {
-                typeof(CargoAutoMapper),
-                typeof(FuncionarioAutoMapper),
-                typeof(EmpresaAutoMapper),
-                typeof(FuncionarioCargoAutoMapper),
+                typeof(ProfileCargo),
+                typeof(ProfileFuncionario),
+                typeof(ProfileEmpresa),
+                typeof(ProfileFuncionarioCargo),
             };
         }
     }
