@@ -2,6 +2,7 @@
 using OnboardingSIGDB1.Domain.Dto;
 using OnboardingSIGDB1.Domain.Entities;
 using OnboardingSIGDB1.Domain.Interfaces;
+using OnboardingSIGDB1.Domain.Interfaces.Funcionarios;
 using OnboardingSIGDB1.Domain.Interfaces.FuncionariosCargo;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
 
 
         public GravarFuncionarioCargoService(IRepository<FuncionarioCargo> funcionarioCargoRepository, INotificationContext notification,
-            IRepository<Funcionario> funcionarioRepository)
+            IFuncionarioRepository funcionarioRepository)
         {
             _funcionarioCargoRepository = funcionarioCargoRepository;
             notificationContext = notification;

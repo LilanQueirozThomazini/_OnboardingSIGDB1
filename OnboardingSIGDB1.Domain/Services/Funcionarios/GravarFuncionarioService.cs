@@ -9,18 +9,18 @@ namespace OnboardingSIGDB1.Domain.Services.Funcionarios
     public class GravarFuncionarioService : GravarServiceBase, IGravarFuncionarioService
     {
 
-        private readonly IRepository<Funcionario> _repository;
+        private readonly IFuncionarioRepository _repository;
         private Funcionario _funcionario;
         private ValidadorFuncionarioService _validador;
 
-        public GravarFuncionarioService(IRepository<Funcionario> repository, 
+        public GravarFuncionarioService(IFuncionarioRepository repository, 
             INotificationContext notification, IRepository<Empresa> empresaRepository)
         {
             _repository = repository;
             notificationContext = notification;
             _validador = new ValidadorFuncionarioService(notification, _funcionario,_repository, empresaRepository);
         }
-
+       
         public bool Alterar(int id, FuncionarioDTO dto)
         {
             _funcionario = _repository.Get(x => x.Id == id);

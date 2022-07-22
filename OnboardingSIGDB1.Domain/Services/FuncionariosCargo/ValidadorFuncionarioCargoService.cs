@@ -1,6 +1,7 @@
 ﻿using OnboardingSIGDB1.Domain.Base;
 using OnboardingSIGDB1.Domain.Entities;
 using OnboardingSIGDB1.Domain.Interfaces;
+using OnboardingSIGDB1.Domain.Interfaces.Funcionarios;
 using OnboardingSIGDB1.Domain.Utils;
 
 namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
@@ -8,10 +9,10 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
     public class ValidadorFuncionarioCargoService: ValidadorBase<FuncionarioCargo>
     {
         private IRepository<FuncionarioCargo> _repository;
-        private IRepository<Funcionario> _repositoryFuncionario;
+        private IFuncionarioRepository _repositoryFuncionario;
 
-        public ValidadorFuncionarioCargoService(IRepository<FuncionarioCargo> repository, 
-            IRepository<Funcionario> repositoryFuncionario,
+        public ValidadorFuncionarioCargoService(IRepository<FuncionarioCargo> repository,
+            IFuncionarioRepository repositoryFuncionario,
             INotificationContext notification,
             FuncionarioCargo funcionarioCargo)
         {

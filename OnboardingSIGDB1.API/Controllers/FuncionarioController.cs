@@ -21,12 +21,12 @@ namespace OnboardingSIGDB1.API.Controllers
     public class FuncionarioController : ControllerBase
     {
 
-        private readonly IRepository<Funcionario> _repository;
+        private readonly IFuncionarioRepository _repository;
         private readonly IGravarFuncionarioService _gravaService;
         private readonly IRemoverFuncionarioService _removeService;
         private readonly IMapper _mapper;
 
-        public FuncionarioController(IRepository<Funcionario> repository, 
+        public FuncionarioController(IFuncionarioRepository repository, 
                   IGravarFuncionarioService gravaService, IRemoverFuncionarioService removeService, IMapper mapper)
         {
             _repository = repository;
@@ -36,18 +36,17 @@ namespace OnboardingSIGDB1.API.Controllers
         }
 
 
-      
+
         [HttpGet]
-        public IEnumerable<FuncionarioDTO> Get()
+        public IList<FuncionarioConsultaDTO> Get()
         {
-            var funcionarios = _repository.GetAll();
-            return _mapper.Map<IEnumerable<FuncionarioDTO>>(funcionarios);
+            return _repository.GetAllFuncionarios();
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var funcionario = _repository.Get(x => x.Id == id);
+            var funcionario = _repository.GetFuncionario(id);
 
             if (funcionario == null)
                 return NotFound("Funcionário não encontrado.");
@@ -88,7 +87,7 @@ namespace OnboardingSIGDB1.API.Controllers
         [HttpGet("pesquisar")]
         public IEnumerable<FuncionarioConsultaDTO> Get([FromQuery] FiltersFuncionario filters)
         {
-            var funcionarios = _repository.GetAll();
+            var funcionarios = _repository.GetAllFuncionarios();
             var funcionariosDto = _mapper.Map<IEnumerable<FuncionarioConsultaDTO>>(funcionarios);
 
             if (filters.Nome != null)

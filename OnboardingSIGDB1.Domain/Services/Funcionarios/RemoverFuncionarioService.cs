@@ -12,11 +12,12 @@ namespace OnboardingSIGDB1.Domain.Services.Funcionarios
 {
     public class RemoverFuncionarioService : IRemoverFuncionarioService
     {
-        private readonly IRepository<Funcionario> _repository;
+        private readonly IFuncionarioRepository _repository;
 
+        
         public INotificationContext notificationContext { get; set; }
 
-        public RemoverFuncionarioService(IRepository<Funcionario> repository, INotificationContext notificationContext)
+        public RemoverFuncionarioService(IFuncionarioRepository repository, INotificationContext notificationContext)
         {
             _repository = repository;
             this.notificationContext = notificationContext;

@@ -1,17 +1,18 @@
 ﻿using OnboardingSIGDB1.Domain.Base;
 using OnboardingSIGDB1.Domain.Entities;
 using OnboardingSIGDB1.Domain.Interfaces;
+using OnboardingSIGDB1.Domain.Interfaces.Funcionarios;
 using OnboardingSIGDB1.Domain.Utils;
 
 namespace OnboardingSIGDB1.Domain.Services.Funcionarios
 {
     public class ValidadorFuncionarioService : ValidadorBase<Funcionario>
     {
-        private readonly IRepository<Funcionario> _repository;
+        private IFuncionarioRepository _repository;
         private readonly IRepository<Empresa> _empresaRepository;
 
         public ValidadorFuncionarioService(INotificationContext notification,
-                        Funcionario funcionario, IRepository<Funcionario> repository, 
+                        Funcionario funcionario, IFuncionarioRepository repository, 
                         IRepository<Empresa> empresaRepository)
         {
             notificationContext = notification;

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OnboardingSIGDB1.Data;
+using OnboardingSIGDB1.Data.Repositories;
 using OnboardingSIGDB1.Domain.AutoMapper;
 using OnboardingSIGDB1.Domain.Entities;
 using OnboardingSIGDB1.Domain.Interfaces;
@@ -51,7 +52,7 @@ namespace OnboardingSIGDB1.API
 
             services.AddScoped<IRepository<Cargo>, Repository<Cargo>>();
             services.AddScoped<IRepository<Empresa>, Repository<Empresa>>();
-            services.AddScoped<IRepository<Funcionario>, Repository<Funcionario>>();
+            services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
             services.AddScoped<IRepository<FuncionarioCargo>, Repository<FuncionarioCargo>>();
 
             services.AddScoped<IGravarCargoService, GravarCargoService>();
