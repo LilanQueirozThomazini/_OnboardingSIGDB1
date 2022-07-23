@@ -1,6 +1,7 @@
 ﻿using OnboardingSIGDB1.Domain.Entities;
 using OnboardingSIGDB1.Domain.Interfaces;
 using OnboardingSIGDB1.Domain.Interfaces.Empresas;
+using OnboardingSIGDB1.Domain.Interfaces.Funcionarios;
 using OnboardingSIGDB1.Domain.Utils;
 
 namespace OnboardingSIGDB1.Domain.Services.Empresas
@@ -10,7 +11,7 @@ namespace OnboardingSIGDB1.Domain.Services.Empresas
         public INotificationContext notificationContext { get; set; }
 
         private readonly IRepository<Empresa> _repository;
-        //private readonly IConsultaFuncionario _consultaFuncionario;
+        private readonly IConsultaFuncionario _consultaFuncionario;
 
         public RemoverEmpresaService(INotificationContext notificationContext, IRepository<Empresa> repository)
         {
@@ -25,8 +26,8 @@ namespace OnboardingSIGDB1.Domain.Services.Empresas
             if (empresa == null)
                 notificationContext.AddNotification(Constantes.sChaveErroLocalizar, Constantes.sMensagemErroLocalizar);
 
-           // if (_repository.VerificarEmrpesaVinculada(empresa.Id))
-                //notificationContext.AddNotification(Constantes.sChaveErroFuncionarioEmpresa, Constantes.sMensagemErroFuncionarioEmpresa);
+            if (_consultaFuncionario.VerificarEmrpesaVinculada(empresa.Id))
+                notificationContext.AddNotification(Constantes.sChaveErroFuncionarioEmpresa, Constantes.sMensagemErroFuncionarioEmpresa);
 
             if (notificationContext.HasNotifications)
                 return false;
