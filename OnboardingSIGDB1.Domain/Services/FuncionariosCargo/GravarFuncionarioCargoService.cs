@@ -15,16 +15,20 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
     public class GravarFuncionarioCargoService : GravarServiceBase, IGravarFuncionarioCargoService
     {
         private readonly IRepository<FuncionarioCargo> _funcionarioCargoRepository;
+        private readonly IRepository<Cargo> _repositoryCargo;
         private FuncionarioCargo _funcionarioCargo;
         private ValidadorFuncionarioCargoService _validador;
 
 
-        public GravarFuncionarioCargoService(IRepository<FuncionarioCargo> funcionarioCargoRepository, INotificationContext notification,
-            IFuncionarioRepository funcionarioRepository)
+        public GravarFuncionarioCargoService(IRepository<FuncionarioCargo> funcionarioCargoRepository, 
+            INotificationContext notification,
+            IFuncionarioRepository funcionarioRepository, IRepository<Cargo> repositoryCargo)
         {
             _funcionarioCargoRepository = funcionarioCargoRepository;
             notificationContext = notification;
-            _validador = new ValidadorFuncionarioCargoService(funcionarioCargoRepository, funcionarioRepository, notification, _funcionarioCargo) ;
+            _repositoryCargo = repositoryCargo;
+            _validador = new ValidadorFuncionarioCargoService(funcionarioCargoRepository, 
+                funcionarioRepository, notification, _funcionarioCargo, _repositoryCargo) ;
         }
  
 

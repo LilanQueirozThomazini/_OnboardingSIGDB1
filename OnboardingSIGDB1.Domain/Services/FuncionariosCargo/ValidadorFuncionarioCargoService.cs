@@ -9,17 +9,22 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
     public class ValidadorFuncionarioCargoService : ValidadorBase<FuncionarioCargo>
     {
         private IRepository<FuncionarioCargo> _repository;
+        private IRepository<Cargo> _repositoryCargo;
         private IFuncionarioRepository _repositoryFuncionario;
+
+      
 
         public ValidadorFuncionarioCargoService(IRepository<FuncionarioCargo> repository,
             IFuncionarioRepository repositoryFuncionario,
             INotificationContext notification,
-            FuncionarioCargo funcionarioCargo)
+            FuncionarioCargo funcionarioCargo,
+            IRepository<Cargo> repositoryCargo)
         {
             _repository = repository;
             _repositoryFuncionario = repositoryFuncionario;
             notificationContext = notification;
             entidade = funcionarioCargo;
+            _repositoryCargo = repositoryCargo;
 
         }
 
@@ -53,7 +58,7 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
 
         private bool ValidarExisteCargo()
         {
-            if (!_repository.Exist(x => x.CargoId == entidade.CargoId))
+            if (!_repositoryCargo.Exist(x => x.Id == entidade.CargoId))
             {
                 notificationContext.AddNotification(Constantes.sChaveErroCargoNaoLocalizado, Constantes.sMensagemCargoNaoLocalizado);
                 return false;
@@ -64,7 +69,7 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
 
         private bool ValidarExisteFuncionario()
         {
-            if (!_repository.Exist(x => x.FuncionarioId == entidade.FuncionarioId))
+            if (!_repositoryFuncionario.Exist(x => x.Id == entidade.FuncionarioId))
             {
                 notificationContext.AddNotification(Constantes.sChaveErroFuncionarioNaoLocalizado, Constantes.sMensagemFuncionarioNaoLocalizado);
                 return false;
@@ -74,11 +79,8 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
 
         private void ValidarExisteVinculo()
         {
-            if (!_repository.Exist(x => x.CargoId == entidade.CargoId && x.FuncionarioId == entidade.FuncionarioId))
-            {
+            if (_repository.Exist(x => x.CargoId == entidade.CargoId && x.FuncionarioId == entidade.FuncionarioId))
                 notificationContext.AddNotification(Constantes.sChaveErroFuncionarioCargo, Constantes.sMensagemErroFuncionarioCargo);
-
-            }
 
         }
     }
