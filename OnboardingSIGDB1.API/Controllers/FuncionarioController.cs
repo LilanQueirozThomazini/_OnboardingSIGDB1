@@ -99,12 +99,20 @@ namespace OnboardingSIGDB1.API.Controllers
             if (filters.CPF != null)
                 funcionariosDto = funcionariosDto.Where(f => f.Cpf == filters.CPF);
 
-            if (filters.dtInicial != null)
+            if (filters.dtInicial != null && filters.dtFinal != null)
+            {
+                if (filters.DateTimeValidate())
+                {
+                    funcionariosDto = funcionariosDto.Where(f => f.DataContratacao >= filters.dtInicial);
+                    funcionariosDto = funcionariosDto.Where(f => f.DataContratacao <= filters.dtFinal);
+                }
+
+            }
+            else if (filters.dtInicial != null)
                 funcionariosDto = funcionariosDto.Where(f => f.DataContratacao >= filters.dtInicial);
-
-            if (filters.dtFinal != null)
+            else if (filters.dtFinal != null)
                 funcionariosDto = funcionariosDto.Where(f => f.DataContratacao <= filters.dtFinal);
-
+           
             return funcionariosDto;
         }
     }

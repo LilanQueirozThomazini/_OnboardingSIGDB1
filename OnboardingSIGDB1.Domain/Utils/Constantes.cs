@@ -13,6 +13,8 @@ namespace OnboardingSIGDB1.Domain.Utils
         public const int QuantidadeMaximaDeCaracteresParaCPF = 11;
         public const int QuantidadeMaximaDeCaracteresParaCNPJ = 14;
 
+        public const string sChaveFiltroDataFinalMaiorQueInicial = "ErroFilterDatas";
+        public const string sMensagemFiltroDataFinalMaiorQueInicial = "A Data Final não pode ser maior que a Data Inicial.";
         public const string sChaveErroInclusao = "ErroInserir";
         public const string sMensagemErroInclusao = "Não foi possível realizar a inclusão.";
         public const string sChaveErroAlteracao = "ErroAlterar";
@@ -35,8 +37,14 @@ namespace OnboardingSIGDB1.Domain.Utils
         public const string sMensagemErroEmpresaNaoLocalizadaParaVincular = "Empresa não localizada para vincular.";
         public const string sChaveErroFuncionarioSemEmpresa = "ErroFuncionarioSemEmpresa";
         public const string sMensagemErroFuncionarioSemEmpresa = "Funcionáio não está vinculado com uma empresa.";
-        public const string sChaveErrooFuncionarioCargo = "ErroFuncionarioCargo";
-        public const string sMensagemErrooFuncionarioCargo = "Funcionário já vinculado ao cargo.";
+        public const string sChaveErroFuncionarioCargo = "ErroFuncionarioCargo";
+        public const string sMensagemErroFuncionarioCargo = "Funcionário já vinculado ao cargo.";
+        public const string sChaveErroFuncionarioNaoLocalizado = "ErroFuncionarioNaoLocalizado";
+        public const string sMensagemFuncionarioNaoLocalizado = "Funcionário não localizado para vincular.";
+        public const string sChaveErroCargoNaoLocalizado = "ErroFuncionarioCargo";
+        public const string sMensagemCargoNaoLocalizado = "Cargo não localizado para vincular.";
+
+
         public const string sChaveErroCargoFuncionario = "ErroCargoVinculoFuncionario";
         public const string sMensagemErroCargoFuncionario = "Cargo possui fuincionários vinculados.";
         public const string sChaveErroFuncionarioEmpresa = "ErroFuncionarioEmpresa";

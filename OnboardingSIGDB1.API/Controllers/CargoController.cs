@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace OnboardingSIGDB1.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/cargos")]
     [ApiController]
     public class CargoController : ControllerBase
     {

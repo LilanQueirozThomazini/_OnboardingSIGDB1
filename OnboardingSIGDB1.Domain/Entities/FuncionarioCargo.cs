@@ -1,4 +1,5 @@
-﻿using OnboardingSIGDB1.Domain.Base;
+﻿using FluentValidation;
+using OnboardingSIGDB1.Domain.Base;
 using System;
 
 namespace OnboardingSIGDB1.Domain.Entities
@@ -7,7 +8,7 @@ namespace OnboardingSIGDB1.Domain.Entities
     {
         public int CargoId { get; private set; }
         public int FuncionarioId { get; private set; }
-        public DateTime? DataVinculo { get; private set; }
+        public DateTime DataVinculo { get; private set; }
 
         public virtual Cargo Cargo { get; private set; } // virtual nagevação no banco
         public virtual Funcionario Funcionario { get; private set; }
@@ -23,7 +24,13 @@ namespace OnboardingSIGDB1.Domain.Entities
 
         public override bool Validar()
         {
-            return true;
+         
+            RuleFor(c => c.CargoId).NotEmpty().NotNull();
+            RuleFor(c => c.FuncionarioId).NotEmpty().NotNull();
+            RuleFor(c => c.DataVinculo).NotEmpty().NotNull().GreaterThan(DateTime.MinValue); ;
+
+            ValidationResult = Validate(this);
+            return ValidationResult.IsValid;
         }
     }
 }

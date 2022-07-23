@@ -6,7 +6,7 @@ using OnboardingSIGDB1.Domain.Utils;
 
 namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
 {
-    public class ValidadorFuncionarioCargoService: ValidadorBase<FuncionarioCargo>
+    public class ValidadorFuncionarioCargoService : ValidadorBase<FuncionarioCargo>
     {
         private IRepository<FuncionarioCargo> _repository;
         private IFuncionarioRepository _repositoryFuncionario;
@@ -20,14 +20,18 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
             _repositoryFuncionario = repositoryFuncionario;
             notificationContext = notification;
             entidade = funcionarioCargo;
-            
+
         }
 
         public void ValidarVinculoFuncionarioCargo()
         {
-            ValidarEmpresaVinculada();
-            ValidarExiste();
-            ValidarEntidade();
+            bool validaCargo = ValidarExisteCargo();
+            bool validaFuncionario = ValidarExisteFuncionario();
+            if (ValidarEntidade() && validaCargo  && validaFuncionario)
+            {
+                ValidarEmpresaVinculada();
+                ValidarExisteVinculo();
+            }
         }
 
         private void ValidarEmpresaVinculada()
@@ -36,18 +40,46 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
 
             if (funcionario.EmpresaId == null)
                 notificationContext.AddNotification(Constantes.sChaveErroFuncionarioSemEmpresa, Constantes.sMensagemErroFuncionarioSemEmpresa);
+
         }
 
-        private void ValidarEntidade()
+        private bool ValidarEntidade()
         {
-            if (!entidade.Validar())
+            bool validaEntidade = entidade.Validar();
+            if (!validaEntidade)
                 notificationContext.AddNotifications(entidade.ValidationResult);
+            return validaEntidade;
         }
 
-        private void ValidarExiste()
+        private bool ValidarExisteCargo()
         {
-            if (_repository.Exist(x => x.CargoId == entidade.CargoId && x.FuncionarioId == entidade.FuncionarioId))
-                notificationContext.AddNotification(Constantes.sChaveErrooFuncionarioCargo, Constantes.sMensagemErrooFuncionarioCargo);
+            if (!_repository.Exist(x => x.CargoId == entidade.CargoId))
+            {
+                notificationContext.AddNotification(Constantes.sChaveErroCargoNaoLocalizado, Constantes.sMensagemCargoNaoLocalizado);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ValidarExisteFuncionario()
+        {
+            if (!_repository.Exist(x => x.FuncionarioId == entidade.FuncionarioId))
+            {
+                notificationContext.AddNotification(Constantes.sChaveErroFuncionarioNaoLocalizado, Constantes.sMensagemFuncionarioNaoLocalizado);
+                return false;
+            }
+            return true;
+        }
+
+        private void ValidarExisteVinculo()
+        {
+            if (!_repository.Exist(x => x.CargoId == entidade.CargoId && x.FuncionarioId == entidade.FuncionarioId))
+            {
+                notificationContext.AddNotification(Constantes.sChaveErroFuncionarioCargo, Constantes.sMensagemErroFuncionarioCargo);
+
+            }
+
         }
     }
 }

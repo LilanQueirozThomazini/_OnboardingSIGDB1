@@ -23,6 +23,8 @@ namespace OnboardingSIGDB1.Domain.Services.Cargos
                 notificationContext.AddNotification(Constantes.sChaveErroLocalizar, Constantes.sMensagemErroLocalizar);
         }
 
+
+
         public void ValidarInclusao()
         {
             ValidarEntidade();

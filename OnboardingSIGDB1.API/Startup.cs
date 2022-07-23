@@ -60,6 +60,9 @@ namespace OnboardingSIGDB1.API
             services.AddScoped<IGravarFuncionarioService, GravarFuncionarioService>();
             services.AddScoped<IGravarFuncionarioCargoService, GravarFuncionarioCargoService>();
 
+            services.AddScoped<IConsultarFuncionarioCargo, ConsultarFuncionarioCargo>();
+            services.AddScoped<IConsultaFuncionario, ConsultaFuncionario>();
+
             services.AddScoped<IRemoverCargoService, RemoverCargoService>();
             services.AddScoped<IRemoverEmpresaService, RemoverEmpresaService>();
             services.AddScoped<IRemoverFuncionarioService, RemoverFuncionarioService>();

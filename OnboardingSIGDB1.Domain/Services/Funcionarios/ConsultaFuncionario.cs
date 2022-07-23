@@ -16,9 +16,9 @@ namespace OnboardingSIGDB1.Domain.Services.Funcionarios
             _funcionarioRepository = funcionarioRepository;
         }
 
-        public bool VerificarEmrpesaVinculada(int empresaId)
+        public bool VerificarEmpresaVinculada(int empresaId)
         {
-            return _funcionarioRepository.GetAll(f => f.EmpresaId == empresaId).Any();
+            return _funcionarioRepository.GetAll(x => x.EmpresaId == empresaId).Any();
         }
     }
 }

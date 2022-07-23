@@ -13,10 +13,11 @@ namespace OnboardingSIGDB1.Domain.Services.Empresas
         private readonly IRepository<Empresa> _repository;
         private readonly IConsultaFuncionario _consultaFuncionario;
 
-        public RemoverEmpresaService(INotificationContext notificationContext, IRepository<Empresa> repository)
+        public RemoverEmpresaService(INotificationContext notificationContext, IRepository<Empresa> repository, IConsultaFuncionario consultaFuncionario)
         {
             this.notificationContext = notificationContext;
             _repository = repository;
+            _consultaFuncionario = consultaFuncionario;
         }
 
         public bool Remover(int id)
@@ -24,9 +25,11 @@ namespace OnboardingSIGDB1.Domain.Services.Empresas
             var empresa = _repository.Get(e => e.Id == id);
 
             if (empresa == null)
+            {
                 notificationContext.AddNotification(Constantes.sChaveErroLocalizar, Constantes.sMensagemErroLocalizar);
-
-            if (_consultaFuncionario.VerificarEmrpesaVinculada(empresa.Id))
+                return false;
+            }
+            if (_consultaFuncionario.VerificarEmpresaVinculada(empresa.Id))
                 notificationContext.AddNotification(Constantes.sChaveErroFuncionarioEmpresa, Constantes.sMensagemErroFuncionarioEmpresa);
 
             if (notificationContext.HasNotifications)

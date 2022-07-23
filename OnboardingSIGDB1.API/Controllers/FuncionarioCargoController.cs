@@ -4,7 +4,7 @@ using OnboardingSIGDB1.Domain.Interfaces.FuncionariosCargo;
 
 namespace OnboardingSIGDB1.API.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/funcionarioCargos")]
     [ApiController]
     public class FuncionarioCargoController : ControllerBase
     {

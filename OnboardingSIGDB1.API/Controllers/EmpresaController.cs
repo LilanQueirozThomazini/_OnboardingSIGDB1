@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace OnboardingSIGDB1.API.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/empresas")]
     [ApiController]
     public class EmpresaController : ControllerBase
     {
@@ -50,18 +50,6 @@ namespace OnboardingSIGDB1.API.Controllers
             return Ok(empresaDto);
         }
 
-        [HttpPost]
-        public IActionResult Post([FromBody] EmpresaDTO dto)
-        {
-            if (!_gravarService.Inserir(dto))
-                return BadRequest(_gravarService.notificationContext.Notifications);
-
-            return Created($"/api/empresa/{dto.Id}", dto);
-        }
-
-
-
-
         [HttpGet("pesquisar")]
         public IEnumerable<EmpresaDTO> Get([FromQuery] FiltersEmpresa filters)
         {
@@ -77,15 +65,38 @@ namespace OnboardingSIGDB1.API.Controllers
             if (filters.CNPJ != null)
                 empresasDto = empresasDto.Where(e => e.Cnpj == filters.CNPJ);
 
-            if (filters.dtInicial != null)
+            if (filters.dtInicial != null && filters.dtFinal != null)
+            {
+                if (filters.DateTimeValidate())
+                {
+                    empresasDto = empresasDto.Where(e => e.DataFundacao >= filters.dtInicial);
+                    empresasDto = empresasDto.Where(e => e.DataFundacao <= filters.dtFinal);
+                }
+
+            }
+            else if (filters.dtInicial != null)
                 empresasDto = empresasDto.Where(e => e.DataFundacao >= filters.dtInicial);
 
-            if (filters.dtFinal != null)
+            else if (filters.dtFinal != null)
                 empresasDto = empresasDto.Where(e => e.DataFundacao <= filters.dtFinal);
 
             return empresasDto;
         }
 
+
+        [HttpPost]
+        public IActionResult Post([FromBody] EmpresaDTO dto)
+        {
+            if (!_gravarService.Inserir(dto))
+                return BadRequest(_gravarService.notificationContext.Notifications);
+
+            return Created($"/api/empresa/{dto.Id}", dto);
+        }
+
+
+
+
+        
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
