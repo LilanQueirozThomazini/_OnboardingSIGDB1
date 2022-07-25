@@ -50,7 +50,7 @@ namespace OnboardingSIGDB1.API.Controllers
         public IActionResult Post([FromBody] CargoDTO dto)
         {
             if (!_gravarService.Inserir(dto))
-                return BadRequest(_gravarService.notificationContext.Notifications);
+                return BadRequest(_gravarService._notificationContext.Notifications);
 
 
             /*
@@ -69,7 +69,7 @@ namespace OnboardingSIGDB1.API.Controllers
         public IActionResult Put(int id, CargoDTO dto)
         {
             if (!_gravarService.Alterar(id, dto))
-                return BadRequest(_gravarService.notificationContext.Notifications);
+                return BadRequest(_gravarService._notificationContext.Notifications);
 
             return Created($"/api/cargo/{id}", dto);
         }

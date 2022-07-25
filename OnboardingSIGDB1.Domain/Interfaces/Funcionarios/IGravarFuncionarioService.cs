@@ -6,6 +6,6 @@ namespace OnboardingSIGDB1.Domain.Interfaces.Funcionarios
     {
         bool Inserir(FuncionarioDTO dto);
         bool Alterar(int id, FuncionarioDTO dto);
-        bool VincularEmpresa(int id, FuncionarioEmpresaDTO dto);
+        bool VincularEmpresa(FuncionarioEmpresaDTO dto);
     }
 }

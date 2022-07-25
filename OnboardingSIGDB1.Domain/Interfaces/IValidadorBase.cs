@@ -1,7 +1,8 @@
 ﻿namespace OnboardingSIGDB1.Domain.Interfaces
 {
-    public interface IGravarService
+    public interface IValidadorBase<T> where T : class
     {
         INotificationContext _notificationContext { get; set; }
+        T entidade { get; set; }
     }
 }

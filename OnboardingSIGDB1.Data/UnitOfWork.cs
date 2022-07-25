@@ -5,7 +5,7 @@ namespace OnboardingSIGDB1.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private DataContext _dataContext = null;
+        private readonly DataContext _dataContext = null;
 
         public UnitOfWork(DataContext dataContext)
         {
@@ -24,9 +24,7 @@ namespace OnboardingSIGDB1.Data
             if (!this.disposed)
             {
                 if (disposing)
-                {
                     _dataContext.Dispose();
-                }
             }
             this.disposed = true;
         }

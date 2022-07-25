@@ -40,16 +40,10 @@ namespace OnboardingSIGDB1.Domain.Notifications
         {
             _notifications.AddRange(notifications);
         }
-
-
-
-
         public void AddNotifications(ValidationResult validationResult)
         {
             foreach (var error in validationResult.Errors)
-            {
                 AddNotification(error.ErrorCode, error.ErrorMessage);
-            }
         }
     }
 }

@@ -12,11 +12,11 @@ namespace OnboardingSIGDB1.Domain.Services.Cargos
         private ValidadorCargoService _validador;
         private Cargo _cargo;
 
-        public GravarCargoService(IRepository<Cargo> cargoRepository, INotificationContext notification)
+        public GravarCargoService(IRepository<Cargo> cargoRepository, INotificationContext notificationContext)
         {
             _repository = cargoRepository;
-            notificationContext = notification;
-            _validador = new ValidadorCargoService(notification, _cargo, _repository);
+            _notificationContext = notificationContext;
+            _validador = new ValidadorCargoService(_notificationContext, _cargo, _repository);
         }
 
         public bool Inserir(CargoDTO dto)
@@ -26,7 +26,7 @@ namespace OnboardingSIGDB1.Domain.Services.Cargos
             _validador.entidade = _cargo;
             _validador.ValidarInclusao();
 
-            if (notificationContext.HasNotifications)
+            if (_notificationContext.HasNotifications)
                 return false;
 
             _repository.Add(_cargo);            
@@ -36,14 +36,17 @@ namespace OnboardingSIGDB1.Domain.Services.Cargos
         public bool Alterar(int id, CargoDTO dto)
         {
             _cargo = _repository.Get(x => x.Id == id);
-            _cargo.AlteraDescricao(dto.Descricao);
 
             _validador.entidade = _cargo;
+            
+            if (_cargo != null)
+                _cargo.AlteraDescricao(dto.Descricao);
             _validador.ValidarAlteracao();
 
-            if (notificationContext.HasNotifications)
+            if (_notificationContext.HasNotifications)
                 return false;
 
+           
             _repository.Update(_cargo);
             return true;
         }

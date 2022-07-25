@@ -26,7 +26,7 @@ namespace OnboardingSIGDB1.API.Controllers
         private readonly IRemoverFuncionarioService _removeService;
         private readonly IMapper _mapper;
 
-        public FuncionarioController(IFuncionarioRepository repository, 
+        public FuncionarioController(IFuncionarioRepository repository,
                   IGravarFuncionarioService gravaService, IRemoverFuncionarioService removeService, IMapper mapper)
         {
             _repository = repository;
@@ -54,22 +54,14 @@ namespace OnboardingSIGDB1.API.Controllers
             return Ok(_mapper.Map<FuncionarioDTO>(funcionario));
         }
 
-        [HttpPost]
-        public IActionResult Post(FuncionarioDTO dto)
+
+        [HttpPatch("vincularEmpresa")]
+        public IActionResult VincularFuncionarioEmpresa([FromBody] FuncionarioEmpresaDTO dto)
         {
-            if (!_gravaService.Inserir(dto))
-                return BadRequest(_gravaService.notificationContext.Notifications);
+            if (!_gravaService.VincularEmpresa(dto))
+                return BadRequest(_gravaService._notificationContext.Notifications);
 
-            return Created($"/api/funcionario/{dto.Id}", dto);
-        }
-
-        [HttpPatch("{id}")]
-        public IActionResult VincularFuncionarioEmpresa(int id, [FromBody] FuncionarioEmpresaDTO dto)
-        {
-            if (!_gravaService.VincularEmpresa(id, dto))
-                return BadRequest(_gravaService.notificationContext.Notifications);
-
-            return Created($"/api/funcionario/{id}", dto);
+            return Created($"/api/funcionario/{dto.FuncionarioId}", dto);
         }
 
 
@@ -82,7 +74,14 @@ namespace OnboardingSIGDB1.API.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, FuncionarioDTO dto)
+        {
+            if (!_gravaService.Alterar(id, dto))
+                return BadRequest(_gravaService._notificationContext.Notifications);
 
+            return Created($"/api/funcionario/{id}", dto);
+        }
 
         [HttpGet("pesquisar")]
         public IEnumerable<FuncionarioConsultaDTO> Get([FromQuery] FiltersFuncionario filters)
@@ -102,18 +101,24 @@ namespace OnboardingSIGDB1.API.Controllers
             if (filters.dtInicial != null && filters.dtFinal != null)
             {
                 if (filters.DateTimeValidate())
-                {
-                    funcionariosDto = funcionariosDto.Where(f => f.DataContratacao >= filters.dtInicial);
-                    funcionariosDto = funcionariosDto.Where(f => f.DataContratacao <= filters.dtFinal);
-                }
+                    funcionariosDto = funcionariosDto.Where(f => f.DataContratacao >= filters.dtInicial && f.DataContratacao <= filters.dtFinal);
 
             }
             else if (filters.dtInicial != null)
                 funcionariosDto = funcionariosDto.Where(f => f.DataContratacao >= filters.dtInicial);
             else if (filters.dtFinal != null)
                 funcionariosDto = funcionariosDto.Where(f => f.DataContratacao <= filters.dtFinal);
-           
+
             return funcionariosDto;
+        }
+
+        [HttpPost]
+        public IActionResult Post(FuncionarioDTO dto)
+        {
+            if (!_gravaService.Inserir(dto))
+                return BadRequest(_gravaService._notificationContext.Notifications);
+
+            return Created($"/api/funcionario/{dto.Id}", dto);
         }
     }
 }

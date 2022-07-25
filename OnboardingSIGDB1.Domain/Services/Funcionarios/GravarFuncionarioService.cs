@@ -14,26 +14,30 @@ namespace OnboardingSIGDB1.Domain.Services.Funcionarios
         private ValidadorFuncionarioService _validador;
 
         public GravarFuncionarioService(IFuncionarioRepository repository, 
-            INotificationContext notification, IRepository<Empresa> empresaRepository)
+            INotificationContext notificationContext, IRepository<Empresa> empresaRepository)
         {
             _repository = repository;
-            notificationContext = notification;
-            _validador = new ValidadorFuncionarioService(notification, _funcionario,_repository, empresaRepository);
+            _notificationContext = notificationContext;
+            _validador = new ValidadorFuncionarioService(_notificationContext, _funcionario,_repository, empresaRepository);
         }
        
         public bool Alterar(int id, FuncionarioDTO dto)
         {
             _funcionario = _repository.Get(x => x.Id == id);
-            _funcionario.AlteraNome(dto.Nome);
-            _funcionario.AlteraCpf(dto.Cpf);
-            _funcionario.AlteraDataContratacao(dto.DataContratacao);
 
             _validador.entidade = _funcionario;
+            if (_funcionario != null)
+            {
+                _funcionario.AlteraNome(dto.Nome);
+                _funcionario.AlteraCpf(dto.Cpf);
+                _funcionario.AlteraDataContratacao(dto.DataContratacao);
+            }
             _validador.ValidarAlteracao();
 
-            if (notificationContext.HasNotifications)
+            if (_notificationContext.HasNotifications)
                 return false;
 
+            
             _repository.Update(_funcionario);
             return true;
         }
@@ -45,23 +49,23 @@ namespace OnboardingSIGDB1.Domain.Services.Funcionarios
             _validador.entidade = _funcionario;
             _validador.ValidarInclusao();
 
-            if (notificationContext.HasNotifications)
+            if (_notificationContext.HasNotifications)
                 return false;
 
             _repository.Add(_funcionario);
             return true;
         }
 
-        public bool VincularEmpresa(int id, FuncionarioEmpresaDTO dto)
+        public bool VincularEmpresa(FuncionarioEmpresaDTO dto)
         {
-            _funcionario = _repository.Get(x => x.Id == id);
+            _funcionario = _repository.Get(x => x.Id == dto.FuncionarioId);
 
             _validador.entidade = _funcionario;
             _validador.ValidarVinculacaoEmpresa(dto.EmpresaId);
 
             _funcionario.AlteraEmpresa(dto.EmpresaId);
 
-            if (notificationContext.HasNotifications)
+            if (_notificationContext.HasNotifications)
                 return false;
 
             _repository.Update(_funcionario);

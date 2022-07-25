@@ -16,13 +16,13 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
 
         public ValidadorFuncionarioCargoService(IRepository<FuncionarioCargo> repository,
             IFuncionarioRepository repositoryFuncionario,
-            INotificationContext notification,
+            INotificationContext notificationContext,
             FuncionarioCargo funcionarioCargo,
             IRepository<Cargo> repositoryCargo)
         {
             _repository = repository;
             _repositoryFuncionario = repositoryFuncionario;
-            notificationContext = notification;
+            _notificationContext = notificationContext;
             entidade = funcionarioCargo;
             _repositoryCargo = repositoryCargo;
 
@@ -44,7 +44,7 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
             var funcionario = _repositoryFuncionario.Get(x => x.Id == entidade.FuncionarioId);
 
             if (funcionario.EmpresaId == null)
-                notificationContext.AddNotification(Constantes.sChaveErroFuncionarioSemEmpresa, Constantes.sMensagemErroFuncionarioSemEmpresa);
+                _notificationContext.AddNotification(Constantes.sChaveErroFuncionarioSemEmpresa, Constantes.sMensagemErroFuncionarioSemEmpresa);
 
         }
 
@@ -52,7 +52,7 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
         {
             bool validaEntidade = entidade.Validar();
             if (!validaEntidade)
-                notificationContext.AddNotifications(entidade.ValidationResult);
+                _notificationContext.AddNotifications(entidade.ValidationResult);
             return validaEntidade;
         }
 
@@ -60,7 +60,7 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
         {
             if (!_repositoryCargo.Exist(x => x.Id == entidade.CargoId))
             {
-                notificationContext.AddNotification(Constantes.sChaveErroCargoNaoLocalizado, Constantes.sMensagemCargoNaoLocalizado);
+                _notificationContext.AddNotification(Constantes.sChaveErroCargoNaoLocalizado, Constantes.sMensagemCargoNaoLocalizado);
                 return false;
             }
 
@@ -71,7 +71,7 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
         {
             if (!_repositoryFuncionario.Exist(x => x.Id == entidade.FuncionarioId))
             {
-                notificationContext.AddNotification(Constantes.sChaveErroFuncionarioNaoLocalizado, Constantes.sMensagemFuncionarioNaoLocalizado);
+                _notificationContext.AddNotification(Constantes.sChaveErroFuncionarioNaoLocalizado, Constantes.sMensagemFuncionarioNaoLocalizado);
                 return false;
             }
             return true;
@@ -80,7 +80,7 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
         private void ValidarExisteVinculo()
         {
             if (_repository.Exist(x => x.CargoId == entidade.CargoId && x.FuncionarioId == entidade.FuncionarioId))
-                notificationContext.AddNotification(Constantes.sChaveErroFuncionarioCargo, Constantes.sMensagemErroFuncionarioCargo);
+                _notificationContext.AddNotification(Constantes.sChaveErroFuncionarioCargo, Constantes.sMensagemErroFuncionarioCargo);
 
         }
     }

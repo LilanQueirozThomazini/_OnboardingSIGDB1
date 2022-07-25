@@ -9,9 +9,9 @@ namespace OnboardingSIGDB1.Domain.Services.Empresas
     {
         private readonly IRepository<Empresa> _repository;
 
-        public ValidadorEmpresaService(INotificationContext notification, Empresa empresa, IRepository<Empresa> repository)
+        public ValidadorEmpresaService(INotificationContext notificationContext, Empresa empresa, IRepository<Empresa> repository)
         {
-            notificationContext = notification;
+            _notificationContext = notificationContext;
             entidade = empresa;
             _repository = repository;
         }
@@ -25,33 +25,40 @@ namespace OnboardingSIGDB1.Domain.Services.Empresas
 
         public void ValidarAlteracao()
         {
-            ValidarExiste();
-            ValidarCNPJ(entidade.Cnpj);
-            ValidarEntidade();
+            if (ValidarExiste())
+            {
+                ValidarCNPJ(entidade.Cnpj);
+                ValidarEntidade();
+            }
         }
 
         private void ValidarEntidade()
         {
             if (!entidade.Validar())
-                notificationContext.AddNotifications(entidade.ValidationResult);
+                _notificationContext.AddNotifications(entidade.ValidationResult);
         }
 
         private void ValidarExisteMesmoCNPJ(string cnpj)
         {
             if (_repository.Exist(e => e.Cnpj == cnpj))
-                notificationContext.AddNotification(Constantes.sChaveErroMesmoCNPJ, Constantes.sMensagemErroMesmoCNPJ);
+                _notificationContext.AddNotification(Constantes.sChaveErroMesmoCNPJ, Constantes.sMensagemErroMesmoCNPJ);
         }
 
         private void ValidarCNPJ(string cnpj)
         {
-            if (entidade != null && !ValidadorCPNJ.ValidaCNPJ(cnpj))
-                notificationContext.AddNotification(Constantes.sChaveErroCNPJInvalido, Constantes.sMensagemErroCNPJInvalido);
+            if (!ValidadorCPNJ.ValidaCNPJ(cnpj))
+                _notificationContext.AddNotification(Constantes.sChaveErroCNPJInvalido, Constantes.sMensagemErroCNPJInvalido);
         }
 
-        private void ValidarExiste()
+        private bool ValidarExiste()
         {
             if (entidade == null)
-                notificationContext.AddNotification(Constantes.sChaveErroLocalizar, Constantes.sMensagemErroLocalizar);
+            {
+                _notificationContext.AddNotification(Constantes.sChaveErroLocalizar, Constantes.sMensagemErroLocalizar);
+                return false;
+            
+            }
+            return true;
         }
     }
 }

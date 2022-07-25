@@ -4,11 +4,6 @@ using OnboardingSIGDB1.Domain.Entities;
 using OnboardingSIGDB1.Domain.Interfaces;
 using OnboardingSIGDB1.Domain.Interfaces.Funcionarios;
 using OnboardingSIGDB1.Domain.Interfaces.FuncionariosCargo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
 {
@@ -21,14 +16,14 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
 
 
         public GravarFuncionarioCargoService(IRepository<FuncionarioCargo> funcionarioCargoRepository, 
-            INotificationContext notification,
+            INotificationContext notificationContext,
             IFuncionarioRepository funcionarioRepository, IRepository<Cargo> repositoryCargo)
         {
             _funcionarioCargoRepository = funcionarioCargoRepository;
-            notificationContext = notification;
+            _notificationContext = notificationContext;
             _repositoryCargo = repositoryCargo;
             _validador = new ValidadorFuncionarioCargoService(funcionarioCargoRepository, 
-                funcionarioRepository, notification, _funcionarioCargo, _repositoryCargo) ;
+                funcionarioRepository, _notificationContext, _funcionarioCargo, _repositoryCargo) ;
         }
  
 
@@ -39,11 +34,11 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
             _funcionarioCargo = new FuncionarioCargo(dto.CargoId, dto.FuncionarioId, dto.DataVinculo);
 
             _validador.entidade = _funcionarioCargo;
-            _validador.ValidarVinculoFuncionarioCargo();
 
-            if (notificationContext.HasNotifications)
+            if (_notificationContext.HasNotifications)
                 return false;
 
+            _validador.ValidarVinculoFuncionarioCargo();
             _funcionarioCargoRepository.Add(_funcionarioCargo);
             return true;
         }

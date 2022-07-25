@@ -59,26 +59,23 @@ namespace OnboardingSIGDB1.API.Controllers
             if (filters.Nome != null)
             {
                 var regex = new Regex(filters.Nome, RegexOptions.IgnoreCase);
-                empresasDto = empresasDto.Where(e => regex.IsMatch(e.Nome));
+                empresasDto = empresasDto.Where(x => regex.IsMatch(x.Nome));
             }
 
             if (filters.CNPJ != null)
-                empresasDto = empresasDto.Where(e => e.Cnpj == filters.CNPJ);
+                empresasDto = empresasDto.Where(x => x.Cnpj == filters.CNPJ);
 
             if (filters.dtInicial != null && filters.dtFinal != null)
             {
                 if (filters.DateTimeValidate())
-                {
-                    empresasDto = empresasDto.Where(e => e.DataFundacao >= filters.dtInicial);
-                    empresasDto = empresasDto.Where(e => e.DataFundacao <= filters.dtFinal);
-                }
+                    empresasDto = empresasDto.Where(x => x.DataFundacao >= filters.dtInicial && x.DataFundacao <= filters.dtFinal);
 
             }
             else if (filters.dtInicial != null)
-                empresasDto = empresasDto.Where(e => e.DataFundacao >= filters.dtInicial);
+                empresasDto = empresasDto.Where(x => x.DataFundacao >= filters.dtInicial);
 
             else if (filters.dtFinal != null)
-                empresasDto = empresasDto.Where(e => e.DataFundacao <= filters.dtFinal);
+                empresasDto = empresasDto.Where(x => x.DataFundacao <= filters.dtFinal);
 
             return empresasDto;
         }
@@ -88,7 +85,7 @@ namespace OnboardingSIGDB1.API.Controllers
         public IActionResult Post([FromBody] EmpresaDTO dto)
         {
             if (!_gravarService.Inserir(dto))
-                return BadRequest(_gravarService.notificationContext.Notifications);
+                return BadRequest(_gravarService._notificationContext.Notifications);
 
             return Created($"/api/empresa/{dto.Id}", dto);
         }
@@ -111,7 +108,7 @@ namespace OnboardingSIGDB1.API.Controllers
         public IActionResult Put(int id, [FromBody] EmpresaDTO dto)
         {
             if (!_gravarService.Alterar(id, dto))
-                return BadRequest(_gravarService.notificationContext.Notifications);
+                return BadRequest(_gravarService._notificationContext.Notifications);
 
             return Created($"/api/empresa/{id}", dto);
         }

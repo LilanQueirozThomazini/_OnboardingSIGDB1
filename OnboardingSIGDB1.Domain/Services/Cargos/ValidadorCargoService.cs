@@ -9,10 +9,10 @@ namespace OnboardingSIGDB1.Domain.Services.Cargos
     {
         private readonly IRepository<Cargo> _repository;
 
-        public ValidadorCargoService(INotificationContext notification, Cargo cargo, IRepository<Cargo> cargoRepository)
+        public ValidadorCargoService(INotificationContext notificationContext, Cargo cargo, IRepository<Cargo> cargoRepository)
         {
             _repository = cargoRepository;
-            notificationContext = notification;
+            _notificationContext = notificationContext;
             entidade = cargo;
         }
 
@@ -20,7 +20,7 @@ namespace OnboardingSIGDB1.Domain.Services.Cargos
         private void ValidarExiste()
         {
             if (entidade == null)
-                notificationContext.AddNotification(Constantes.sChaveErroLocalizar, Constantes.sMensagemErroLocalizar);
+                _notificationContext.AddNotification(Constantes.sChaveErroLocalizar, Constantes.sMensagemErroLocalizar);
         }
 
 
@@ -41,12 +41,12 @@ namespace OnboardingSIGDB1.Domain.Services.Cargos
         private void ValidarEntidade()
         {
             if (entidade != null && !entidade.Validar())
-                notificationContext.AddNotifications(entidade.ValidationResult);
+                _notificationContext.AddNotifications(entidade.ValidationResult);
         }
         private void ValidarExisteMesmaDescricao()
         {
             if (entidade != null && _repository.Exist(c => c.Descricao == entidade.Descricao && c.Id != entidade.Id))
-                notificationContext.AddNotification(Constantes.sChaveErroCargoMesmaDescricao, Constantes.sMensagemErroCargoMesmaDescricao);
+                _notificationContext.AddNotification(Constantes.sChaveErroCargoMesmaDescricao, Constantes.sMensagemErroCargoMesmaDescricao);
         }
     }
 }

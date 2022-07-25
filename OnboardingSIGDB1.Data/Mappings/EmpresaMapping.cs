@@ -10,16 +10,16 @@ namespace OnboardingSIGDB1.Data.Mappings
 
         public void Configure(EntityTypeBuilder<Empresa> builder)
         {
-            builder.HasKey(p => p.Id);
-            builder.Property(p => p.Id).ValueGeneratedOnAdd();
-            builder.Property(p => p.Nome)
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).ValueGeneratedOnAdd();
+            builder.Property(x => x.Nome)
                 .IsRequired()
                 .HasMaxLength(Constantes.QuantidadeMaximaDeCaracteresParaNome);
-            builder.Property(p => p.Cnpj)
+            builder.Property(x => x.Cnpj)
                 .IsRequired()
                 .HasMaxLength(Constantes.QuantidadeMaximaDeCaracteresParaCNPJ);
-            builder.Ignore(p => p.ValidationResult);
-            builder.Ignore(p => p.CascadeMode);
+            builder.Ignore(x => x.ValidationResult);
+            builder.Ignore(x => x.CascadeMode);
         }
     }
 }

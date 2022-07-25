@@ -2,9 +2,9 @@
 
 namespace OnboardingSIGDB1.Domain.Base
 {
-    public class ValidadorBase<TEntity> where TEntity : class
+    public class ValidadorBase<T>: IValidadorBase<T> where T : class
     {
-        public INotificationContext notificationContext { get; set; }
-        public TEntity entidade { get; set; }
+        public INotificationContext _notificationContext { get; set; }
+        public T entidade { get; set; }
     }
 }

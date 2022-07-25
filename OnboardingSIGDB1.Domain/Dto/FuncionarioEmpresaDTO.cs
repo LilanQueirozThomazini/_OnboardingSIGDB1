@@ -2,7 +2,7 @@
 {
     public class FuncionarioEmpresaDTO
     {
-        public int Id { get; set; }
+        public int FuncionarioId { get; set; }
         public int EmpresaId { get; set; }
     }
 }

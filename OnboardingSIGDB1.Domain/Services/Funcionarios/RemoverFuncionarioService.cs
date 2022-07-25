@@ -1,12 +1,6 @@
-﻿using OnboardingSIGDB1.Domain.Entities;
-using OnboardingSIGDB1.Domain.Interfaces;
+﻿using OnboardingSIGDB1.Domain.Interfaces;
 using OnboardingSIGDB1.Domain.Interfaces.Funcionarios;
 using OnboardingSIGDB1.Domain.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnboardingSIGDB1.Domain.Services.Funcionarios
 {

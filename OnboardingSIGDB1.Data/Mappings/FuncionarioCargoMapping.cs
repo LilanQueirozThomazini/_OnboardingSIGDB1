@@ -8,16 +8,16 @@ namespace OnboardingSIGDB1.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<FuncionarioCargo> builder)
         {
-            builder.HasKey(p => new { p.CargoId, p.FuncionarioId });
-            builder.HasOne(p => p.Cargo)
-                .WithMany(p => p.FuncionarioCargo)
-                .HasForeignKey(p => p.CargoId)
+            builder.HasKey(x => new { x.CargoId, x.FuncionarioId });
+            builder.HasOne(x => x.Cargo)
+                .WithMany(x => x.FuncionarioCargo)
+                .HasForeignKey(x => x.CargoId)
                 .OnDelete(DeleteBehavior.Restrict);
-            builder.HasOne(p => p.Funcionario)
-                .WithMany(p => p.FuncionarioCargo)
-                .HasForeignKey(p => p.FuncionarioId);
-            builder.Ignore(p => p.ValidationResult);
-            builder.Ignore(p => p.CascadeMode);
+            builder.HasOne(x => x.Funcionario)
+                .WithMany(x => x.FuncionarioCargo)
+                .HasForeignKey(x => x.FuncionarioId);
+            builder.Ignore(x => x.ValidationResult);
+            builder.Ignore(x => x.CascadeMode);
         }
     }
 }

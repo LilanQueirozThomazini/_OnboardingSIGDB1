@@ -34,7 +34,7 @@ namespace OnboardingSIGDB1.Domain.Entities
 
         public override bool Validar()
         {
-            RuleFor(c => c.Descricao).NotEmpty().NotNull().MaximumLength(Constantes.QuantidadeMaximaDeCaracteresParaDescricao);
+            RuleFor(x => x.Descricao).NotEmpty().NotNull().MaximumLength(Constantes.QuantidadeMaximaDeCaracteresParaDescricao);
 
             ValidationResult = Validate(this);
             return ValidationResult.IsValid;

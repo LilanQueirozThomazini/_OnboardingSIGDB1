@@ -8,16 +8,16 @@ namespace OnboardingSIGDB1.Domain.Services.Funcionarios
 {
     public class ValidadorFuncionarioService : ValidadorBase<Funcionario>
     {
-        private IFuncionarioRepository _repository;
+        private readonly IFuncionarioRepository _repository;
         private readonly IRepository<Empresa> _empresaRepository;
 
-        public ValidadorFuncionarioService(INotificationContext notification,
-                        Funcionario funcionario, IFuncionarioRepository repository, 
+        public ValidadorFuncionarioService(INotificationContext notificationContext,
+                        Funcionario funcionario, IFuncionarioRepository funcionarioRepository,
                         IRepository<Empresa> empresaRepository)
         {
-            notificationContext = notification;
+            _notificationContext = notificationContext;
             entidade = funcionario;
-            _repository = repository;
+            _repository = funcionarioRepository;
             _empresaRepository = empresaRepository;
         }
 
@@ -30,52 +30,60 @@ namespace OnboardingSIGDB1.Domain.Services.Funcionarios
 
         public void ValidarAlteracao()
         {
-            ValidarExiste();
-            ValidarCPF(entidade.Cpf);
-            ValidarEntidade();
+            if (ValidarExiste())
+            {
+                ValidarCPF(entidade.Cpf);
+                ValidarEntidade();
+            }
         }
 
         public void ValidarVinculacaoEmpresa(int empresaId)
         {
-            ValidarExiste();
-            ValidarEmpresaVinculada();
-            ValidarEmpresaExiste(empresaId);
+            if (ValidarExiste())
+            {
+                ValidarEmpresaVinculada();
+                ValidarEmpresaExiste(empresaId);
+            }
         }
 
         private void ValidarCPF(string cpf)
         {
             if (!ValidadorCPF.ValidaCPF(cpf))
-                notificationContext.AddNotification(Constantes.sChaveErroCPFInvalido, Constantes.sMensagemErroCPFInvalido);
+                _notificationContext.AddNotification(Constantes.sChaveErroCPFInvalido, Constantes.sMensagemErroCPFInvalido);
         }
 
         private void ValidarEntidade()
         {
-            if (!entidade.Validar())
-                notificationContext.AddNotifications(entidade.ValidationResult);
+            if (entidade != null && !entidade.Validar())
+                _notificationContext.AddNotifications(entidade.ValidationResult);
         }
 
-        private void ValidarExiste()
+        private bool ValidarExiste()
         {
             if (entidade == null)
-                notificationContext.AddNotification(Constantes.sChaveErroLocalizar, Constantes.sMensagemErroLocalizar);
+            {
+                _notificationContext.AddNotification(Constantes.sChaveErroLocalizar, Constantes.sMensagemErroLocalizar);
+                return false;
+            }
+            return true;
         }
 
         private void ValidarExisteMesmoCPF(string cpf)
         {
-            if (_repository.Exist(x => x.Cpf == cpf))
-                notificationContext.AddNotification(Constantes.sChaveErroMesmoCPF, Constantes.sMensagemErroMesmoCPF);
+            if (entidade != null && _repository.Exist(x => x.Cpf == cpf))
+                _notificationContext.AddNotification(Constantes.sChaveErroMesmoCPF, Constantes.sMensagemErroMesmoCPF);
         }
 
         private void ValidarEmpresaVinculada()
         {
             if (entidade != null && entidade.EmpresaId.HasValue)
-                notificationContext.AddNotification(Constantes.sChaveErroEmpresaVinculada, Constantes.sMensagemErroEmpresaVinculada);
+                _notificationContext.AddNotification(Constantes.sChaveErroEmpresaVinculada, Constantes.sMensagemErroEmpresaVinculada);
         }
 
         private void ValidarEmpresaExiste(int empresaId)
         {
-            if (!_empresaRepository.Exist(x => x.Id == empresaId))
-                notificationContext.AddNotification(Constantes.sChaveErroEmpresaNaoLocalizadaParaVincular, Constantes.sMensagemErroEmpresaNaoLocalizadaParaVincular);
+            if (entidade != null && !_empresaRepository.Exist(x => x.Id == empresaId))
+                _notificationContext.AddNotification(Constantes.sChaveErroEmpresaNaoLocalizadaParaVincular, Constantes.sMensagemErroEmpresaNaoLocalizadaParaVincular);
         }
     }
 }

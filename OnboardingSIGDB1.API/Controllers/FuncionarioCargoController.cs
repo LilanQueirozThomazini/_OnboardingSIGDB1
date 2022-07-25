@@ -17,11 +17,11 @@ namespace OnboardingSIGDB1.API.Controllers
         }
 
        
-        [HttpPost]
+        [HttpPost("vincularFuncionarioCargo")]
         public IActionResult Post(FuncionarioCargoDTO dto)
         {
             if (!_gravaService.Inserir(dto))
-                return BadRequest(_gravaService.notificationContext.Notifications);
+                return BadRequest(_gravaService._notificationContext.Notifications);
 
             return Created(string.Empty, dto);
         }
