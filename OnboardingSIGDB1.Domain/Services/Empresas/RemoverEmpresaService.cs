@@ -29,7 +29,7 @@ namespace OnboardingSIGDB1.Domain.Services.Empresas
                 notificationContext.AddNotification(Constantes.sChaveErroLocalizar, Constantes.sMensagemErroLocalizar);
                 return false;
             }
-            if (_consultaFuncionario.VerificarEmpresaVinculada(empresa.Id))
+            if (_consultaFuncionario.VerificarExisteEmpresaVinculada(empresa.Id))
                 notificationContext.AddNotification(Constantes.sChaveErroFuncionarioEmpresa, Constantes.sMensagemErroFuncionarioEmpresa);
 
             if (notificationContext.HasNotifications)

@@ -12,10 +12,10 @@ namespace OnboardingSIGDB1.Domain.Services.Cargos
         private readonly IRepository<Cargo> _repository;
         private readonly IConsultarFuncionarioCargo _consultarFuncionarioCargo;
 
-        public RemoverCargoService(IRepository<Cargo> cargoRepository, INotificationContext notification, IConsultarFuncionarioCargo consultarFuncionarioCargo)
+        public RemoverCargoService(IRepository<Cargo> repositoryCargo, INotificationContext notification, IConsultarFuncionarioCargo consultarFuncionarioCargo)
         {
             notificationContext = notification;
-            _repository = cargoRepository;
+            _repository = repositoryCargo;
             _consultarFuncionarioCargo = consultarFuncionarioCargo;
             
         }

@@ -2,6 +2,6 @@
 {
     public interface IConsultaFuncionario
     {
-        bool VerificarEmpresaVinculada(int empresaId);
+        bool VerificarExisteEmpresaVinculada(int empresaId);
     }
 }

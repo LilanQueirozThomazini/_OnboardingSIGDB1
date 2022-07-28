@@ -4,7 +4,7 @@ using OnboardingSIGDB1.Domain.Interfaces.FuncionariosCargo;
 
 namespace OnboardingSIGDB1.API.Controllers
 {
-    [Route("api/v1/funcionarioCargos")]
+    [Route("api/funcionarioCargos")]
     [ApiController]
     public class FuncionarioCargoController : ControllerBase
     {
@@ -23,7 +23,7 @@ namespace OnboardingSIGDB1.API.Controllers
             if (!_gravaService.Inserir(dto))
                 return BadRequest(_gravaService._notificationContext.Notifications);
 
-            return Created(string.Empty, dto);
+            return Ok(dto);
         }
     }
 }

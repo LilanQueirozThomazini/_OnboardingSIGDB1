@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace OnboardingSIGDB1.API.Controllers
 {
-    [Route("api/v1/empresas")]
+    [Route("api/empresas")]
     [ApiController]
     public class EmpresaController : ControllerBase
     {
@@ -65,17 +65,12 @@ namespace OnboardingSIGDB1.API.Controllers
             if (filters.CNPJ != null)
                 empresasDto = empresasDto.Where(x => x.Cnpj == filters.CNPJ);
 
-            if (filters.dtInicial != null && filters.dtFinal != null)
-            {
-                if (filters.DateTimeValidate())
-                    empresasDto = empresasDto.Where(x => x.DataFundacao >= filters.dtInicial && x.DataFundacao <= filters.dtFinal);
-
-            }
-            else if (filters.dtInicial != null)
-                empresasDto = empresasDto.Where(x => x.DataFundacao >= filters.dtInicial);
-
-            else if (filters.dtFinal != null)
-                empresasDto = empresasDto.Where(x => x.DataFundacao <= filters.dtFinal);
+            if (filters.DateTimeValidate())
+                empresasDto = empresasDto.Where(x => x.DataFundacao >= filters.DtInicial && x.DataFundacao <= filters.DtFinal);
+            else if (filters.DtInicial != null)
+                empresasDto = empresasDto.Where(x => x.DataFundacao >= filters.DtInicial);
+            else if (filters.DtFinal != null)
+                empresasDto = empresasDto.Where(x => x.DataFundacao <= filters.DtFinal);
 
             return empresasDto;
         }
@@ -87,13 +82,8 @@ namespace OnboardingSIGDB1.API.Controllers
             if (!_gravarService.Inserir(dto))
                 return BadRequest(_gravarService._notificationContext.Notifications);
 
-            return Created($"/api/empresa/{dto.Id}", dto);
+            return Ok(dto);
         }
-
-
-
-
-        
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)

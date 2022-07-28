@@ -7,16 +7,16 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
 {
     public class ConsultarFuncionarioCargo : IConsultarFuncionarioCargo
     {
-        private readonly IRepository<FuncionarioCargo> _funcionarioCargoRepository;
+        private readonly IRepository<FuncionarioCargo> _repository;
 
-        public ConsultarFuncionarioCargo(IRepository<FuncionarioCargo> funcionarioCargoRepository)
+        public ConsultarFuncionarioCargo(IRepository<FuncionarioCargo> repositoryFuncionarioCargo)
         {
-            _funcionarioCargoRepository = funcionarioCargoRepository;
+            _repository = repositoryFuncionarioCargo;
         }
 
         public bool VerificarExisteVinculo(int cargoId)
         {
-            return _funcionarioCargoRepository.GetAll(fc => fc.CargoId == cargoId).Any();
+            return _repository.GetAll(x => x.CargoId == cargoId).Any();
         }
     }
 }

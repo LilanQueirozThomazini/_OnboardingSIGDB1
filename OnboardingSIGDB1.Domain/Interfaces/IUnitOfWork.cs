@@ -1,7 +1,10 @@
-﻿namespace OnboardingSIGDB1.Domain.Interfaces
+﻿using System;
+using System.Threading.Tasks;
+
+namespace OnboardingSIGDB1.Domain.Interfaces
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
-        void Commit();
+        Task Commit();
     }
 }

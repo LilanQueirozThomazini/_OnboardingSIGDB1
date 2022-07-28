@@ -10,7 +10,7 @@ namespace OnboardingSIGDB1.Domain.Entities
         public int Id { get; private set; }
 
 
-        public string Descricao
+        public string? Descricao
         {
             get { return _descricao; }
             private set { _descricao = value.Trim(); }
@@ -21,12 +21,12 @@ namespace OnboardingSIGDB1.Domain.Entities
 
         protected Cargo() { }
 
-        public Cargo(string descricao)
+        public Cargo(string? descricao)
         {
             Descricao = descricao;
         }
 
-        public void AlteraDescricao(string descricao)
+        public void AlteraDescricao(string? descricao)
         {
             Descricao = descricao;
 

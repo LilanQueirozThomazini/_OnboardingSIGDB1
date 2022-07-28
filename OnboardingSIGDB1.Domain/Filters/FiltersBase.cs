@@ -5,14 +5,14 @@ namespace OnboardingSIGDB1.Domain.Filters
     public class FiltersBase
     {
         public string Nome { get; set; }
-        public DateTime? dtInicial { get; set; }
-        public DateTime? dtFinal { get; set; }
+        public DateTime? DtInicial { get; set; }
+        public DateTime? DtFinal { get; set; }
 
         public bool DateTimeValidate()
         {
-            if (!dtInicial.HasValue || !dtFinal.HasValue)
+            if (!DtInicial.HasValue || !DtFinal.HasValue)
                 return false;
-            if (dtInicial.Value > dtFinal.Value)
+            if (DtInicial.Value > DtFinal.Value)
                 return false;
 
             return true;

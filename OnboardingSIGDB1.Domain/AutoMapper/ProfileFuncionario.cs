@@ -20,7 +20,7 @@ namespace OnboardingSIGDB1.Domain.AutoMapper
                     opt.PreCondition(x => x.Count() > 0);
                     opt.MapFrom(x => x.FuncionarioCargo.OrderByDescending(x => x.DataVinculo).FirstOrDefault().CargoId);
                 })
-                .ForMember(x => x.CargoDescricao, opt => {
+                .ForMember(x => x.CargoDescricao, opt => {                                                                                                     
                     opt.PreCondition(x => x.Count() > 0);
                     opt.MapFrom(x => x.FuncionarioCargo.OrderByDescending(x => x.DataVinculo).FirstOrDefault().Cargo.Descricao);
                 })
@@ -33,3 +33,4 @@ namespace OnboardingSIGDB1.Domain.AutoMapper
         }
     }
 }
+                                     

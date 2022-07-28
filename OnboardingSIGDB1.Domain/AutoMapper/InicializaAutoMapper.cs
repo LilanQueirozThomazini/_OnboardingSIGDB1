@@ -9,7 +9,7 @@ namespace OnboardingSIGDB1.Domain.AutoMapper
         public static void Initialize()
         {
             //Static API Mapper
-            Mapper.Initialize(m => m.AddProfiles(GetAutoMapperProfiles()));
+            Mapper.Initialize(x => x.AddProfiles(GetAutoMapperProfiles()));
         }
 
         private static IEnumerable<Type> GetAutoMapperProfiles()

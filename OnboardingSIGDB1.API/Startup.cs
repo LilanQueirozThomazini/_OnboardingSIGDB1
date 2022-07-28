@@ -39,12 +39,12 @@ namespace OnboardingSIGDB1.API
         {
 
             InicializaAutoMapper.Initialize();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("OnboardingSIGDB1.Data")));
 
             services.AddControllers();
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -92,7 +92,7 @@ namespace OnboardingSIGDB1.API
                 if (!notificationContext.HasNotifications)
                 {
                     var unitOfWork = (IUnitOfWork)context.RequestServices.GetService(typeof(IUnitOfWork));
-                    unitOfWork.Commit();
+                    await unitOfWork.Commit();
                 }
             });
 

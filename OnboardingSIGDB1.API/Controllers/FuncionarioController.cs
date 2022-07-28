@@ -1,22 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using OnboardingSIGDB1.Data;
-using OnboardingSIGDB1.Domain.Entities;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using OnboardingSIGDB1.API.Models;
-using OnboardingSIGDB1.Domain.Interfaces;
 using OnboardingSIGDB1.Domain.Dto;
-using OnboardingSIGDB1.Domain.Interfaces.Funcionarios;
-using AutoMapper;
 using OnboardingSIGDB1.Domain.Filters;
-using System.Text.RegularExpressions;
+using OnboardingSIGDB1.Domain.Interfaces.Funcionarios;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace OnboardingSIGDB1.API.Controllers
 {
-    [Route("api/v1/funcionarios")]
+    [Route("api/funcionarios")]
     [ApiController]
     public class FuncionarioController : ControllerBase
     {
@@ -98,16 +91,16 @@ namespace OnboardingSIGDB1.API.Controllers
             if (filters.CPF != null)
                 funcionariosDto = funcionariosDto.Where(f => f.Cpf == filters.CPF);
 
-            if (filters.dtInicial != null && filters.dtFinal != null)
+            if (filters.DtInicial != null && filters.DtFinal != null)
             {
                 if (filters.DateTimeValidate())
-                    funcionariosDto = funcionariosDto.Where(f => f.DataContratacao >= filters.dtInicial && f.DataContratacao <= filters.dtFinal);
+                    funcionariosDto = funcionariosDto.Where(f => f.DataContratacao >= filters.DtInicial && f.DataContratacao <= filters.DtFinal);
 
             }
-            else if (filters.dtInicial != null)
-                funcionariosDto = funcionariosDto.Where(f => f.DataContratacao >= filters.dtInicial);
-            else if (filters.dtFinal != null)
-                funcionariosDto = funcionariosDto.Where(f => f.DataContratacao <= filters.dtFinal);
+            else if (filters.DtInicial != null)
+                funcionariosDto = funcionariosDto.Where(f => f.DataContratacao >= filters.DtInicial);
+            else if (filters.DtFinal != null)
+                funcionariosDto = funcionariosDto.Where(f => f.DataContratacao <= filters.DtFinal);
 
             return funcionariosDto;
         }
@@ -118,7 +111,7 @@ namespace OnboardingSIGDB1.API.Controllers
             if (!_gravaService.Inserir(dto))
                 return BadRequest(_gravaService._notificationContext.Notifications);
 
-            return Created($"/api/funcionario/{dto.Id}", dto);
+            return Ok(dto);
         }
     }
 }

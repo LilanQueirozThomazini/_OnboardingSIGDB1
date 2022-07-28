@@ -1,5 +1,5 @@
 ﻿using OnboardingSIGDB1.Domain.Interfaces;
-using System;
+using System.Threading.Tasks;
 
 namespace OnboardingSIGDB1.Data
 {
@@ -12,28 +12,13 @@ namespace OnboardingSIGDB1.Data
             _dataContext = dataContext;
         }
 
-        public void Commit()
+        public async Task Commit()
         {
-            _dataContext.SaveChanges();
+            await _dataContext.SaveChangesAsync();
+            Dispose();
         }
 
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                    _dataContext.Dispose();
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        public void Dispose() => _dataContext.Dispose();
     }
    
 }

@@ -5,16 +5,16 @@ namespace OnboardingSIGDB1.Domain.Services.Funcionarios
 {
     public class ConsultaFuncionario : IConsultaFuncionario
     {
-        private readonly IFuncionarioRepository _funcionarioRepository;
+        private readonly IFuncionarioRepository _repository;
 
         public ConsultaFuncionario(IFuncionarioRepository funcionarioRepository)
         {
-            _funcionarioRepository = funcionarioRepository;
+            _repository = funcionarioRepository;
         }
 
-        public bool VerificarEmpresaVinculada(int empresaId)
+        public bool VerificarExisteEmpresaVinculada(int empresaId)
         {
-            return _funcionarioRepository.GetAll(x => x.EmpresaId == empresaId).Any();
+            return _repository.GetAll(x => x.EmpresaId == empresaId).Any();
         }
     }
 }

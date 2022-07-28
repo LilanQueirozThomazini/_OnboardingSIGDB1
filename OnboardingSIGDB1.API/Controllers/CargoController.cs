@@ -5,11 +5,10 @@ using OnboardingSIGDB1.Domain.Entities;
 using OnboardingSIGDB1.Domain.Interfaces;
 using OnboardingSIGDB1.Domain.Interfaces.Cargos;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OnboardingSIGDB1.API.Controllers
 {
-    [Route("api/v1/cargos")]
+    [Route("api/cargos")]
     [ApiController]
     public class CargoController : ControllerBase
     {
@@ -52,17 +51,7 @@ namespace OnboardingSIGDB1.API.Controllers
             if (!_gravarService.Inserir(dto))
                 return BadRequest(_gravarService._notificationContext.Notifications);
 
-
-            /*
-            var cargo = _repository.GetAll();
-            var cargoDto = _mapper.Map<IEnumerable<CargoDTO>>(cargo);
-            cargoDto = cargoDto.Where(e => e.Descricao == dto.Descricao);
-             return Created($"/api/cargo", cargoDto);
-            */
-
-            return Created($"/api/cargo/{dto.Id}", dto);
-
-            //TODO: como mostrar o ID CRIADO?
+            return Ok(dto);
         }
 
         [HttpPut("{id}")]
