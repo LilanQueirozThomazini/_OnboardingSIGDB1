@@ -20,6 +20,7 @@ using OnboardingSIGDB1.Domain.Services.Cargos;
 using OnboardingSIGDB1.Domain.Services.Empresas;
 using OnboardingSIGDB1.Domain.Services.Funcionarios;
 using OnboardingSIGDB1.Domain.Services.FuncionariosCargo;
+using OnboardingSIGDB1.IOC;
 using System;
 using System.Linq;
 
@@ -38,35 +39,9 @@ namespace OnboardingSIGDB1.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            InicializaAutoMapper.Initialize();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("OnboardingSIGDB1.Data")));
-
             services.AddControllers();
-
-
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<INotificationContext, NotificationContext>();
-
-            services.AddScoped<IRepository<Cargo>, Repository<Cargo>>();
-            services.AddScoped<IRepository<Empresa>, Repository<Empresa>>();
-            services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
-            services.AddScoped<IRepository<FuncionarioCargo>, Repository<FuncionarioCargo>>();
-
-            services.AddScoped<IGravarCargoService, GravarCargoService>();
-            services.AddScoped<IGravarEmpresaService, GravarEmpresaService>();
-            services.AddScoped<IGravarFuncionarioService, GravarFuncionarioService>();
-            services.AddScoped<IGravarFuncionarioCargoService, GravarFuncionarioCargoService>();
-
-            services.AddScoped<IConsultarFuncionarioCargo, ConsultarFuncionarioCargo>();
-            services.AddScoped<IConsultaFuncionario, ConsultaFuncionario>();
-
-            services.AddScoped<IRemoverCargoService, RemoverCargoService>();
-            services.AddScoped<IRemoverEmpresaService, RemoverEmpresaService>();
-            services.AddScoped<IRemoverFuncionarioService, RemoverFuncionarioService>();
-
+            
+            StartupIoc.ConfigureServices(services, Configuration);
 
             services.AddSwaggerGen(c =>
             {
@@ -80,7 +55,8 @@ namespace OnboardingSIGDB1.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.Use(async (context, next) => {
+            app.Use(async (context, next) =>
+            {
                 await next.Invoke();
                 string method = context.Request.Method;
                 var allowedMethodsToCommit = new string[] { "POST", "PUT", "DELETE", "PATCH" };

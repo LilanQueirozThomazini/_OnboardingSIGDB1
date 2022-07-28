@@ -34,11 +34,11 @@ namespace OnboardingSIGDB1.Domain.Services.FuncionariosCargo
             _funcionarioCargo = new FuncionarioCargo(dto.CargoId, dto.FuncionarioId, dto.DataVinculo);
 
             _validador.entidade = _funcionarioCargo;
+            _validador.ValidarVinculoFuncionarioCargo();
 
             if (_notificationContext.HasNotifications)
                 return false;
 
-            _validador.ValidarVinculoFuncionarioCargo();
             _funcionarioCargoRepository.Add(_funcionarioCargo);
             return true;
         }

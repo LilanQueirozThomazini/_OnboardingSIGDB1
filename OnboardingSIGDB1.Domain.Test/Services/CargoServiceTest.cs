@@ -50,6 +50,22 @@ namespace OnboardingSIGDB1.Domain.Test.Builders.Services
         }
 
         [Fact]
+        public void DeveAlterarCargo()
+        {
+            var cargo = CargoBuilder.Novo().Build();
+            _cargoRepositoryMock.Setup(x => x.Get(It.IsAny<Expression<Func<Cargo, bool>>>())).Returns(cargo);
+
+            while (cargo.Descricao.Equals(_cargoDTO.Descricao))
+                _cargoDTO.Descricao = _faker.Random.Words();
+
+            _gravarCargoService.Alterar(1, _cargoDTO);
+
+            _cargoRepositoryMock.Verify(x => x.Update(
+                It.Is<Cargo>(x => x.Descricao == _cargoDTO.Descricao)
+            ));
+        }
+
+        [Fact]
         public void NaoDeveInserirCargoComAMesmaDescricaoDeOutroJaSalvo()
         {
             _cargoRepositoryMock.Setup(x => x.Exist(It.IsAny<Expression<Func<Cargo, bool>>>())).Returns(true);
